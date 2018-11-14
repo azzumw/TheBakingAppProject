@@ -33,7 +33,7 @@ public class MainRecipeCustomAdapter extends RecyclerView.Adapter<MainRecipeCust
     @Override
     public void onBindViewHolder(@NonNull MainRecipeViewHolder mainRecipeViewHolder, int i) {
         String sometext = "Recipe ";
-        int recipeNumber = i++;
+        int recipeNumber =  i + 1;
         mainRecipeViewHolder.recipeTitle.setText(sometext + recipeNumber);
     }
 
