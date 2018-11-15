@@ -2,6 +2,7 @@ package com.example.macintosh.thebakingappproject;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -19,12 +20,31 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         mRecyclerView = findViewById(R.id.mainRecipeRV);
-        linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
+        boolean isThisPhone = getResources().getBoolean(R.bool.isPhone);
+
+
+        if(isThisPhone){
+            //phone
+            linearLayoutManager = new LinearLayoutManager(this);
+
+        }else{
+            //tablet
+            linearLayoutManager = new GridLayoutManager(this,3,GridLayoutManager.VERTICAL,false);
+            int spanCount = 60; // 3 columns
+            mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount));
+        }
+
+        generateDataList(NUM);
+
+    }
+
+    /*Method to generate List of data using RecyclerView with custom adapter*/
+    private void generateDataList(int x) {
+
+        mainRecipeCustomAdapter = new MainRecipeCustomAdapter(x);
         mRecyclerView.setHasFixedSize(true);
-        mainRecipeCustomAdapter = new MainRecipeCustomAdapter(NUM);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setAdapter(mainRecipeCustomAdapter);
     }
 }
