@@ -8,15 +8,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.macintosh.thebakingappproject.Models.Recipe;
+
 import java.util.List;
 
 
 public class MainRecipeCustomAdapter extends RecyclerView.Adapter<MainRecipeCustomAdapter.MainRecipeViewHolder> {
 
     private int number;
+    private List<Recipe> recipeList;
 
-    public MainRecipeCustomAdapter(int num){
-        number = num;
+    public MainRecipeCustomAdapter(List<Recipe> recipes){
+        recipeList = recipes;
     }
     @NonNull
     @Override
@@ -32,14 +35,13 @@ public class MainRecipeCustomAdapter extends RecyclerView.Adapter<MainRecipeCust
 
     @Override
     public void onBindViewHolder(@NonNull MainRecipeViewHolder mainRecipeViewHolder, int i) {
-        String sometext = "Recipe ";
-        int recipeNumber =  i + 1;
-        mainRecipeViewHolder.recipeTitle.setText(sometext + recipeNumber);
+
+        mainRecipeViewHolder.recipeTitle.setText(recipeList.get(i).getName());
     }
 
     @Override
     public int getItemCount() {
-        return number;
+        return recipeList.size();
     }
 
     class MainRecipeViewHolder extends RecyclerView.ViewHolder{

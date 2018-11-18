@@ -5,12 +5,22 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+
+import com.example.macintosh.thebakingappproject.Models.Recipe;
+import com.example.macintosh.thebakingappproject.Network.GetDataService;
+import com.example.macintosh.thebakingappproject.Network.RetrofitClientInstance;
 
 import java.util.Arrays;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MainActivity extends AppCompatActivity {
 
+    private static final String LOG_TAG = "MAINACTIVITY";
     private RecyclerView mRecyclerView;
     private MainRecipeCustomAdapter mainRecipeCustomAdapter;
     private LinearLayoutManager linearLayoutManager;
@@ -35,14 +45,29 @@ public class MainActivity extends AppCompatActivity {
             mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount));
         }
 
-        generateDataList(NUM);
 
+        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+        Call<List<Recipe>> call = service.getAllRecipes();
+
+        call.enqueue(new Callback<List<Recipe>>() {
+            @Override
+            public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
+                List<Recipe> recipeList = response.body();
+                generateDataList(recipeList);
+            }
+
+            @Override
+            public void onFailure(Call<List<Recipe>> call, Throwable t) {
+                Log.e(LOG_TAG,"ERROR:"+ t.toString());
+            }
+        });
+        
     }
 
     /*Method to generate List of data using RecyclerView with custom adapter*/
-    private void generateDataList(int x) {
+    private void generateDataList(List<Recipe> recipes) {
 
-        mainRecipeCustomAdapter = new MainRecipeCustomAdapter(x);
+        mainRecipeCustomAdapter = new MainRecipeCustomAdapter(recipes);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setAdapter(mainRecipeCustomAdapter);
