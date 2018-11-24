@@ -18,8 +18,15 @@ public class MainRecipeCustomAdapter extends RecyclerView.Adapter<MainRecipeCust
     private int number;
     private List<Recipe> recipeList;
 
-    public MainRecipeCustomAdapter(List<Recipe> recipes){
+    private final MainRecipeCustomOnClickHandler mainRecipeCustomOnClickHandler;
+
+    public interface MainRecipeCustomOnClickHandler{
+        void onClickHandler(Recipe recipe);
+    }
+
+    public MainRecipeCustomAdapter(List<Recipe> recipes,MainRecipeCustomOnClickHandler mainRecipeCustomOnClickHandler){
         recipeList = recipes;
+        this.mainRecipeCustomOnClickHandler = mainRecipeCustomOnClickHandler;
     }
     @NonNull
     @Override
@@ -44,13 +51,21 @@ public class MainRecipeCustomAdapter extends RecyclerView.Adapter<MainRecipeCust
         return recipeList.size();
     }
 
-    class MainRecipeViewHolder extends RecyclerView.ViewHolder{
+    class MainRecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView recipeTitle;
 
         public MainRecipeViewHolder(@NonNull View itemView) {
             super(itemView);
             recipeTitle = itemView.findViewById(R.id.recipeTitleTv);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+            Recipe recipe = recipeList.get(adapterPosition);
+            mainRecipeCustomOnClickHandler.onClickHandler(recipe);
         }
     }
 }
