@@ -21,7 +21,7 @@ public class StepIngredDetailFragment extends Fragment {
 
         ImageView imageView = rootview.findViewById(R.id.imageviewFragStepsIngredDetails);
 
-        imageView.setImageResource(R.drawable.ic_launcher_background);
+        imageView.setImageResource(R.drawable.head1);
 
         return rootview;
     }

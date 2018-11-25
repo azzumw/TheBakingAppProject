@@ -15,6 +15,6 @@ public class StepIngredDetailActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-        fragmentManager.beginTransaction().add(R.id.fragmentContainerFL,stepIngredDetailFragment);
+        fragmentManager.beginTransaction().add(R.id.fragmentContainerFL,stepIngredDetailFragment).commit();
     }
 }
