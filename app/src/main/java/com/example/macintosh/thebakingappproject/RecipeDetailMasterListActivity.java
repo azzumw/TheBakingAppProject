@@ -3,13 +3,18 @@ package com.example.macintosh.thebakingappproject;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.example.macintosh.thebakingappproject.Models.Recipe;
+import com.example.macintosh.thebakingappproject.Models.Steps;
+
+import java.util.List;
 
 public class RecipeDetailMasterListActivity extends AppCompatActivity {
 
-
-    Recipe recipe;
+    private Recipe recipe;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +27,7 @@ public class RecipeDetailMasterListActivity extends AppCompatActivity {
         String recipeName = recipe.getName();
 
         getSupportActionBar().setTitle(recipeName);
+
     }
 
 }
