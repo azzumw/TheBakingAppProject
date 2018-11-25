@@ -19,12 +19,7 @@ public class RecipeDetailMasterListAdapter extends RecyclerView.Adapter<RecipeDe
     public RecipeDetailMasterListAdapter(int size){
         stringList = new ArrayList<>(size);
         size++;
-        stringList.add("Ingredients");
-
-        for(int i=1; i< size; i++){
-
-            stringList.add("Step " + i);
-        }
+        fillArrayList(size);
     }
 
     @NonNull
@@ -59,6 +54,13 @@ public class RecipeDetailMasterListAdapter extends RecyclerView.Adapter<RecipeDe
         public RecipeDetailMasterListViewHolder(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.recipeTitleTv);
+        }
+    }
+
+    private void fillArrayList(int size){
+        stringList.add("Ingredients");
+        for(int i=1; i < size; i++){
+            stringList.add("Step " + i);
         }
     }
 }
