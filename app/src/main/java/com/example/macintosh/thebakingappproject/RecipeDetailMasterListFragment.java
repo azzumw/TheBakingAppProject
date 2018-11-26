@@ -1,5 +1,6 @@
 package com.example.macintosh.thebakingappproject;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.example.macintosh.thebakingappproject.Models.Recipe;
 
@@ -18,6 +20,7 @@ public class RecipeDetailMasterListFragment extends Fragment{
 
     private Recipe recipe;
     private LinearLayoutManager linearLayoutManager;
+
 
     public RecipeDetailMasterListFragment(){
 
@@ -34,16 +37,19 @@ public class RecipeDetailMasterListFragment extends Fragment{
         Log.e(getClass().getSimpleName(),recipe.getName());
 
 
-        RecyclerView recyclerView = rootView.findViewById(R.id.masterListRecycler);
+//        RecyclerView recyclerView = rootView.findViewById(R.id.masterListRecyclerView);
+        ListView listView = rootView.findViewById(R.id.masterListView);
 
-        linearLayoutManager = new LinearLayoutManager(getContext());
+//        linearLayoutManager = new LinearLayoutManager(getContext());
 
-        recyclerView.setLayoutManager(linearLayoutManager);
+//        recyclerView.setLayoutManager(linearLayoutManager);
         //adapter
-        RecipeDetailMasterListAdapter adapter = new RecipeDetailMasterListAdapter(recipe.getSteps().size());
+        RecipeDetailMasterListAdapter adapter = new RecipeDetailMasterListAdapter(recipe.getSteps().size(),getContext());
 
-        recyclerView.setAdapter(adapter);
+        listView.setAdapter(adapter);
+
 
         return rootView;
     }
+
 }

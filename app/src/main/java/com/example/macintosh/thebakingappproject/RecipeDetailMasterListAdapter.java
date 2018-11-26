@@ -1,60 +1,65 @@
 package com.example.macintosh.thebakingappproject;
 
+
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
+import java.util.zip.Inflater;
 
-public class RecipeDetailMasterListAdapter extends RecyclerView.Adapter<RecipeDetailMasterListAdapter.RecipeDetailMasterListViewHolder>{
 
-
+public class RecipeDetailMasterListAdapter extends BaseAdapter{
     private List<String> stringList;
+    private Context context;
 
-    public RecipeDetailMasterListAdapter(int size){
-        stringList = new ArrayList<>(size);
+    public RecipeDetailMasterListAdapter(int size, Context context) {
+        this.context = context;
+        stringList = new ArrayList<>();
         size++;
         fillArrayList(size);
     }
 
-    @NonNull
     @Override
-    public RecipeDetailMasterListViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        Context context = viewGroup.getContext();
-        int layoutIdForListItem = R.layout.main_recipe_list_item;
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-
-        View view = layoutInflater.inflate(layoutIdForListItem,viewGroup,false);
-        RecipeDetailMasterListViewHolder viewHolder = new RecipeDetailMasterListViewHolder(view);
-
-        return viewHolder;
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull RecipeDetailMasterListViewHolder recipeDetailMasterListViewHolder, int i) {
-        String textFieldName = stringList.get(i);
-        recipeDetailMasterListViewHolder.textView.setText(textFieldName);
-    }
-
-
-    @Override
-    public int getItemCount() {
+    public int getCount() {
         return stringList.size();
     }
 
-    class RecipeDetailMasterListViewHolder extends RecyclerView.ViewHolder{
+    @Override
+    public Object getItem(int position) {
+        return stringList.get(position);
+    }
 
-        private TextView textView;
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
 
-        public RecipeDetailMasterListViewHolder(@NonNull View itemView) {
-            super(itemView);
-            textView = itemView.findViewById(R.id.recipeTitleTv);
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        if (convertView == null){
+            convertView = LayoutInflater.from(context).inflate(R.layout.main_recipe_list_item,parent,false);
         }
+
+        String currentString = (String) getItem(position);
+
+        TextView textView =  convertView.findViewById(R.id.recipeTitleTv);
+        textView.setText(currentString);
+
+
+        return convertView;
     }
 
     private void fillArrayList(int size){
