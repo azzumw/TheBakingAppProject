@@ -14,7 +14,7 @@ import com.example.macintosh.thebakingappproject.Models.Steps;
 
 import java.util.List;
 
-public class RecipeDetailMasterListActivity extends AppCompatActivity{
+public class RecipeDetailMasterListActivity extends AppCompatActivity implements RecipeDetailMasterListFragment.OnImageClickListener{
 
     private Recipe recipe;
     @Override
@@ -33,4 +33,8 @@ public class RecipeDetailMasterListActivity extends AppCompatActivity{
     }
 
 
+    @Override
+    public void onItemClicked(int pos) {
+        Toast.makeText(this, "Position clicked" + pos, Toast.LENGTH_SHORT).show();
+    }
 }

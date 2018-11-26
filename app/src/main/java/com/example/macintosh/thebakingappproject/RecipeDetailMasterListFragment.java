@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.macintosh.thebakingappproject.Models.Recipe;
@@ -21,6 +22,22 @@ public class RecipeDetailMasterListFragment extends Fragment{
     private Recipe recipe;
     private LinearLayoutManager linearLayoutManager;
 
+
+    OnImageClickListener mCallBack;
+
+    public interface OnImageClickListener{
+        void onItemClicked(int pos);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mCallBack = (OnImageClickListener) context;
+        } catch (ClassCastException e){
+            throw new ClassCastException(context.toString()+ "must implement listener");
+        }
+    }
 
     public RecipeDetailMasterListFragment(){
 
@@ -48,7 +65,12 @@ public class RecipeDetailMasterListFragment extends Fragment{
 
         listView.setAdapter(adapter);
 
-
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mCallBack.onItemClicked(position);
+            }
+        });
         return rootView;
     }
 
