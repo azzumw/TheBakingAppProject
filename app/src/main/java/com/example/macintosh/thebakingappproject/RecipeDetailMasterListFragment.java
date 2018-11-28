@@ -26,7 +26,7 @@ public class RecipeDetailMasterListFragment extends Fragment{
     OnImageClickListener mCallBack;
 
     public interface OnImageClickListener{
-        void onItemClicked(int pos);
+        void onItemClicked(int pos, Recipe recipe);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class RecipeDetailMasterListFragment extends Fragment{
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mCallBack.onItemClicked(position);
+                mCallBack.onItemClicked(position,recipe);
             }
         });
         return rootView;
