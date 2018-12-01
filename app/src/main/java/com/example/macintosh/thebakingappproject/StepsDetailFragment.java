@@ -11,33 +11,41 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.macintosh.thebakingappproject.Models.Ingredient;
 import com.example.macintosh.thebakingappproject.Models.Steps;
 
-public class StepIngredDetailFragment extends Fragment {
+import java.util.ArrayList;
 
-    public StepIngredDetailFragment() {
+public class StepsDetailFragment extends Fragment {
+
+    public StepsDetailFragment() {
     }
+
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_steps_ingred_details,container,false);
 
-//        ImageView imageView = rootview.findViewById(R.id.imageviewFragStepsIngredDetails);
         TextView textView = rootview.findViewById(R.id.textView2);
 
-        Intent intent = getActivity().getIntent();
 
-        Bundle bundle = intent.getBundleExtra("bundle");
 
-        Steps step = bundle.getParcelable("step");
+        Bundle bundle = getArguments();
+        if(bundle!=null){
 
-        String desc = step.getShortDescription();
 
-//        imageView.setImageResource(R.drawable.head1);
+                Steps step = bundle.getParcelable("step");
 
-        textView.setText(desc);
+                String desc = step.getShortDescription();
+                textView.setText(desc);
+
+        }
 
         return rootview;
+
     }
+
+
 }

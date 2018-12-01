@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,9 +16,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.macintosh.thebakingappproject.Models.Ingredient;
 import com.example.macintosh.thebakingappproject.Models.Recipe;
+import com.example.macintosh.thebakingappproject.Models.Steps;
 
-public class RecipeDetailMasterListFragment extends Fragment{
+import java.util.ArrayList;
+
+public class RecipeDetailMasterListFragment extends Fragment {
 
     private Recipe recipe;
     private LinearLayoutManager linearLayoutManager;
@@ -25,9 +30,7 @@ public class RecipeDetailMasterListFragment extends Fragment{
 
     OnImageClickListener mCallBack;
 
-    public interface OnImageClickListener{
-        void onItemClicked(int pos, Recipe recipe);
-    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -43,13 +46,18 @@ public class RecipeDetailMasterListFragment extends Fragment{
 
     }
 
+
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_master_list,container,false);
 
-        Intent intent = getActivity().getIntent();
-        recipe = intent.getParcelableExtra("recipe");
+//        Intent intent = getActivity().getIntent();
+        Bundle bundle = getArguments();
+        recipe = bundle.getParcelable("bundle");
+//        recipe = intent.getParcelableExtra("recipe");
 
         Log.e(getClass().getSimpleName(),recipe.getName());
 
@@ -73,5 +81,9 @@ public class RecipeDetailMasterListFragment extends Fragment{
         });
         return rootView;
     }
+
+
+
+
 
 }

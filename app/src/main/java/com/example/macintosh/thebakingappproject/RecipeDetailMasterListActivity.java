@@ -17,9 +17,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class RecipeDetailMasterListActivity extends AppCompatActivity implements RecipeDetailMasterListFragment.OnImageClickListener{
+public class RecipeDetailMasterListActivity extends AppCompatActivity {
 
-    private Recipe recipe;
+    private Recipe mRecipe;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,38 +27,34 @@ public class RecipeDetailMasterListActivity extends AppCompatActivity implements
 
         Intent intent = getIntent();
 
-        recipe = intent.getParcelableExtra("recipe");
+        mRecipe = intent.getParcelableExtra("recipe");
 
-        String recipeName = recipe.getName();
+        String recipeName = mRecipe.getName();
 
         getSupportActionBar().setTitle(recipeName);
 
     }
 
 
-    @Override
-    public void onItemClicked(int pos,Recipe recipe) {
-        Toast.makeText(this, "Position clicked" + pos, Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent(this, StepIngredDetailActivity.class);
-        Bundle bundle = new Bundle();
+//    public void onItemClicked(int pos,Recipe recipe) {
 
-        if (pos == 0) {
+//        Intent intent = new Intent(this, StepIngredDetailActivity.class);
+//        Bundle bundle = new Bundle();
+
+//        if (pos == 0) {
             //pass ingredient list/data
-            //recipe.getIngredients()
-            ArrayList<Ingredient> ingredients = (ArrayList<Ingredient>) recipe.getIngredients();
-//            intent.putParcelableArrayListExtra();
-            bundle.putParcelableArrayList("ingredients",ingredients);
-        }
-        else{
+//            ArrayList<Ingredient> ingredients = (ArrayList<Ingredient>) recipe.getIngredients();
+//            bundle.putParcelableArrayList("ingredients",ingredients);
+//        }
+//        else{
             //pass steps data
-            //recipe.getSteps().get(pos-1);
-            Steps step = recipe.getSteps().get(pos-1);
-            bundle.putParcelable("step", step);
-        }
+//            Steps step = recipe.getSteps().get(pos-1);
+//            bundle.putParcelable("step", step);
+//        }
 
-        intent.putExtra("bundle",bundle);
+//        intent.putExtra("bundle",bundle);
 
-        startActivity(intent);
-    }
+//        startActivity(intent);
+//    }
 }

@@ -20,12 +20,8 @@
         </activity>
         <activity
             android:name=".RecipeDetailMasterListActivity"
-            android:parentActivityName=".MainActivity">
-
-        </activity>
-        <activity android:name=".StepIngredDetailActivity">
-
-        </activity>
+            android:parentActivityName=".MainActivity"></activity>
+        <activity android:name=".TheMasterActivity"></activity>
     </application>
 
 </manifest>
