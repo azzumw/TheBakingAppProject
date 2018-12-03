@@ -22,6 +22,7 @@ public class StepsDetailFragment extends Fragment {
     TextView textView;
     int currentPosition;
     int nextPosition;
+    int previousPosition;
     ArrayList<Steps> stepsArrayList;
     OnImageClickListener onImageClickListener;
     public StepsDetailFragment() {
@@ -52,7 +53,7 @@ public class StepsDetailFragment extends Fragment {
                 stepsArrayList = bundle.getParcelableArrayList("stepsList");
 
                 currentPosition = bundle.getInt("currentposition");  // 5
-
+                previousPosition = currentPosition==0? 0:currentPosition-1;
                 textView.setText(stepsArrayList.get(currentPosition).getShortDescription()); //5
 
                 nextPosition = currentPosition+1; //6
@@ -60,18 +61,35 @@ public class StepsDetailFragment extends Fragment {
 
 
         Button nextBtn = showNextButton(rootview);
+        Button backBtn = showBackButton(rootview);
 
 
-        if(currentPosition<stepsArrayList.size()-1){  //5<7 , 6<7
+        //5<7 , 6<7
             nextBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showNextStep(nextPosition); //6
+
+                    if(currentPosition<stepsArrayList.size()-1){
+                        showNextStep(nextPosition); //6
+                    }
+                    else{
+                        Toast.makeText(getContext(),"End of List",Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             });
-        }else{
-            Toast.makeText(getContext(),"End of List",Toast.LENGTH_SHORT).show();
-        }
+
+            backBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(currentPosition>0){
+                        showPreviousStep(previousPosition);
+                    }else{
+                        Toast.makeText(getContext(),"Start of list",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
 
 
         return rootview;
@@ -80,6 +98,7 @@ public class StepsDetailFragment extends Fragment {
 
     public void setNextData(int pnextPosition){  //6,
         currentPosition = pnextPosition;  //currentposition = 6
+        previousPosition = currentPosition-1;
         textView.setText(stepsArrayList.get(currentPosition).getShortDescription());  //6
         if(nextPosition<stepsArrayList.size()-1){
             nextPosition = currentPosition+1;
@@ -88,11 +107,28 @@ public class StepsDetailFragment extends Fragment {
 
     }
 
+    public void setPreviousData(int previousData) {
+        currentPosition = previousData;
+        nextPosition = currentPosition+1;
+        previousPosition = currentPosition-1;
+        textView.setText(stepsArrayList.get(currentPosition).getShortDescription());
+    }
+
     private Button showNextButton(View view){
         //set the properties for button
         Button btnTag = new Button(getContext());
         btnTag.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        btnTag.setText("Button");
+        btnTag.setText("Next");
+        LinearLayout linearLayout= view.findViewById(R.id.linear);
+        linearLayout.addView(btnTag);
+        return btnTag;
+
+    }
+    private Button showBackButton(View view){
+        //set the properties for button
+        Button btnTag = new Button(getContext());
+        btnTag.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        btnTag.setText("Back");
         LinearLayout linearLayout= view.findViewById(R.id.linear);
         linearLayout.addView(btnTag);
         return btnTag;
@@ -104,6 +140,15 @@ public class StepsDetailFragment extends Fragment {
 //        Steps steps = stepsArrayList.get(nextPosition);
         onImageClickListener.onNextPressed(nextPosition); //6, 7
     }
+
+    private void showPreviousStep(int previousPosition){
+        onImageClickListener.onBackPressed(previousPosition);
+    }
+
+
+
+
+
 
     /*
     * if(bundle!=null){

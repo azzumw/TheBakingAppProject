@@ -1,11 +1,9 @@
 package com.example.macintosh.thebakingappproject;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.macintosh.thebakingappproject.Models.Ingredient;
@@ -97,6 +95,14 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
         stepsDetailFragment.setNextData(nextposition);  //6, 7
     }
 
+    @Override
+    public void onBackPressed(int previousPosition) {
+        stepsDetailFragment.setPreviousData(previousPosition);
+    }
+
+
+}
+
 
     /* @Override
     public void onBackPressed() {
@@ -115,4 +121,4 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
         onBackPressed();
         return true;
     }*/
-}
+
