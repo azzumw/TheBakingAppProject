@@ -1,14 +1,11 @@
 package com.example.macintosh.thebakingappproject;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,11 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.macintosh.thebakingappproject.Models.Ingredient;
 import com.example.macintosh.thebakingappproject.Models.Recipe;
-import com.example.macintosh.thebakingappproject.Models.Steps;
-
-import java.util.ArrayList;
 
 public class RecipeDetailMasterListFragment extends Fragment {
 
@@ -76,7 +69,7 @@ public class RecipeDetailMasterListFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mCallBack.onItemClicked(position,recipe);
+                mCallBack.onItemClicked(position,recipe);           //position: 1
             }
         });
         return rootView;

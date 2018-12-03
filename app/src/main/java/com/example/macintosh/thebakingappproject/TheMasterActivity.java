@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 public class TheMasterActivity extends AppCompatActivity implements OnImageClickListener{
 
+    StepsDetailFragment stepsDetailFragment;
     FragmentManager fragmentManager;
     RecipeDetailMasterListFragment recipeDetailMasterListFragment;
     @Override
@@ -73,16 +74,29 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
         }
         else{
             //TODO 7: pass bundle to Step Fragment
-            Steps step = recipe.getSteps().get(pos-1);
-            bundle.putParcelable("step", step);
+            int currentstepElementPosition = pos-1;
+            ArrayList<Steps> stepsArrayList = (ArrayList<Steps>) recipe.getSteps();//stepElement : 0
+            bundle.putParcelableArrayList("stepsList",stepsArrayList);
+            bundle.putInt("currentposition",currentstepElementPosition);   //0
+//            stepElement++;
+//            Steps nextStp = recipe.getSteps().get(stepElement);          //nextStp = gets the next Element in the Steps list
+//            bundle.putParcelable("nextstep",nextStp);
+//            bundle.putInt("nextpos",stepElement);
 
             //TODO 4: contain StepsDetailFragment
-            StepsDetailFragment stepsDetailFragment = new StepsDetailFragment();
+            stepsDetailFragment = new StepsDetailFragment();
             stepsDetailFragment.setArguments(bundle);
 
             fragmentManager.beginTransaction().replace(R.id.fragmentContainerFLMasterAct,stepsDetailFragment).addToBackStack(null).commit();
         }
     }
+
+    @Override
+    public void onNextPressed(int nextposition) {
+
+        stepsDetailFragment.setNextData(nextposition);
+    }
+
 
     /* @Override
     public void onBackPressed() {
