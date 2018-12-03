@@ -94,7 +94,7 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
     @Override
     public void onNextPressed(int nextposition) {
 
-        stepsDetailFragment.setNextData(nextposition);
+        stepsDetailFragment.setNextData(nextposition);  //6, 7
     }
 
 

@@ -51,23 +51,22 @@ public class StepsDetailFragment extends Fragment {
 
                 stepsArrayList = bundle.getParcelableArrayList("stepsList");
 
-                currentPosition = bundle.getInt("currentposition");
+                currentPosition = bundle.getInt("currentposition");  // 5
 
-                textView.setText(stepsArrayList.get(currentPosition).getShortDescription());
+                textView.setText(stepsArrayList.get(currentPosition).getShortDescription()); //5
 
-                nextPosition = currentPosition+1;
-
+                nextPosition = currentPosition+1; //6
         }
 
 
         Button nextBtn = showNextButton(rootview);
 
 
-        if(currentPosition<stepsArrayList.size()-currentPosition){
+        if(currentPosition<stepsArrayList.size()-1){  //5<7 , 6<7
             nextBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showNextStep(nextPosition);
+                    showNextStep(nextPosition); //6
                 }
             });
         }else{
@@ -79,10 +78,13 @@ public class StepsDetailFragment extends Fragment {
 
     }
 
-    public void setNextData(int pnextPosition){
-        currentPosition = pnextPosition;
-        textView.setText(stepsArrayList.get(currentPosition).getShortDescription());
-        nextPosition = currentPosition+1;
+    public void setNextData(int pnextPosition){  //6,
+        currentPosition = pnextPosition;  //currentposition = 6
+        textView.setText(stepsArrayList.get(currentPosition).getShortDescription());  //6
+        if(nextPosition<stepsArrayList.size()-1){
+            nextPosition = currentPosition+1;
+        }
+          //  7
 
     }
 
@@ -100,7 +102,7 @@ public class StepsDetailFragment extends Fragment {
 
     private void showNextStep(int nextPosition){
 //        Steps steps = stepsArrayList.get(nextPosition);
-        onImageClickListener.onNextPressed(nextPosition);
+        onImageClickListener.onNextPressed(nextPosition); //6, 7
     }
 
     /*
