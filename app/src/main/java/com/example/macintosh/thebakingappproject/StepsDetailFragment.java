@@ -60,8 +60,8 @@ public class StepsDetailFragment extends Fragment {
         }
 
 
-        Button nextBtn = showNextButton(rootview);
         Button backBtn = showBackButton(rootview);
+        Button nextBtn = showNextButton(rootview);
 
 
         //5<7 , 6<7
@@ -117,9 +117,15 @@ public class StepsDetailFragment extends Fragment {
     private Button showNextButton(View view){
         //set the properties for button
         Button btnTag = new Button(getContext());
-        btnTag.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//        btnTag.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1.0f
+        );
         btnTag.setText("Next");
-        LinearLayout linearLayout= view.findViewById(R.id.linear);
+        btnTag.setLayoutParams(param);
+        LinearLayout linearLayout= view.findViewById(R.id.childLinearLayout);
         linearLayout.addView(btnTag);
         return btnTag;
 
@@ -127,9 +133,16 @@ public class StepsDetailFragment extends Fragment {
     private Button showBackButton(View view){
         //set the properties for button
         Button btnTag = new Button(getContext());
-        btnTag.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//        btnTag.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         btnTag.setText("Back");
-        LinearLayout linearLayout= view.findViewById(R.id.linear);
+
+        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1.0f
+        );
+        btnTag.setLayoutParams(param);
+        LinearLayout linearLayout= view.findViewById(R.id.childLinearLayout);
         linearLayout.addView(btnTag);
         return btnTag;
 
