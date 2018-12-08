@@ -14,9 +14,9 @@ import java.util.ArrayList;
 
 public class TheMasterActivity extends AppCompatActivity implements OnImageClickListener{
 
-    StepsDetailFragment stepsDetailFragment;
     FragmentManager fragmentManager;
-    RecipeDetailMasterListFragment recipeDetailMasterListFragment;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,31 +29,36 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
 
         //TODO 3: contain RecipeDetailMasterListFragment
 
-        recipeDetailMasterListFragment = new RecipeDetailMasterListFragment();
-        recipeDetailMasterListFragment.setArguments(bundle);
+            fragmentManager = getSupportFragmentManager();
 
-        fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.fragmentContainerFLMasterAct,recipeDetailMasterListFragment).commit();
+        if (savedInstanceState == null) {
+            RecipeDetailMasterListFragment recipeDetailMasterListFragment = new RecipeDetailMasterListFragment();
+            recipeDetailMasterListFragment.setArguments(bundle);
+            fragmentManager.beginTransaction().add(R.id.fragmentContainerFLMasterAct,recipeDetailMasterListFragment,"recipeDetailMasterListFragmentTag").commit();
+        }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
     @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == android.R.id.home){
-            if(fragmentManager.getBackStackEntryCount()==0){
-                finish();
-            }else{
-                fragmentManager.popBackStack();
-            }
-
+            onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 
     @Override
     public void onItemClicked(int pos, Recipe recipe) {
@@ -67,32 +72,36 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
             ingredientsFragment.setArguments(bundle);
             //TODO 5: contain IngredientFragment
 
-            fragmentManager.beginTransaction().replace(R.id.fragmentContainerFLMasterAct,ingredientsFragment).addToBackStack(null).commit();
+            fragmentManager.beginTransaction().replace(R.id.fragmentContainerFLMasterAct,ingredientsFragment,"ingredientsFragmentTag").addToBackStack(null).commit();
 
         }
         else{
             //TODO 7: pass bundle to Step Fragment
-            int currentstepElementPosition = pos-1;
-            ArrayList<Steps> stepsArrayList = (ArrayList<Steps>) recipe.getSteps();
-            bundle.putParcelableArrayList("stepsList",stepsArrayList);
-            bundle.putInt("currentposition",currentstepElementPosition);
-
-            //TODO 4: contain StepsDetailFragment
-            stepsDetailFragment = new StepsDetailFragment();
-            stepsDetailFragment.setArguments(bundle);
-
-            fragmentManager.beginTransaction().replace(R.id.fragmentContainerFLMasterAct,stepsDetailFragment).addToBackStack(null).commit();
+            replaceStepsDetailFragment(pos - 1, (ArrayList<Steps>) recipe.getSteps());
         }
     }
 
-    @Override
-    public void onNextPressed(int nextposition) {
-        stepsDetailFragment.setNextData(nextposition);
+    private void replaceStepsDetailFragment(int pos, ArrayList<Steps> stepsArrayList) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("stepsList",stepsArrayList);
+        bundle.putInt("currentposition",pos);
+
+        //TODO 4: contain StepsDetailFragment
+        StepsDetailFragment stepsDetailFragment = new StepsDetailFragment();
+        stepsDetailFragment.setArguments(bundle);
+
+        fragmentManager.popBackStack();
+        fragmentManager.beginTransaction().replace(R.id.fragmentContainerFLMasterAct,stepsDetailFragment,"stepsDetailFragmentTag").addToBackStack(null).commit();
     }
 
     @Override
-    public void onBackPressed(int previousPosition) {
-        stepsDetailFragment.setPreviousData(previousPosition);
+    public void onNextPressed(int nextposition, ArrayList<Steps> stepsArrayList) {
+        replaceStepsDetailFragment(nextposition, stepsArrayList);
+    }
+
+    @Override
+    public void onBackPressed(int previousPosition, ArrayList<Steps> stepsArrayList) {
+        replaceStepsDetailFragment(previousPosition, stepsArrayList);
     }
 
 

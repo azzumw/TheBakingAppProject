@@ -8,6 +8,6 @@ import java.util.ArrayList;
 
 public interface OnImageClickListener {
     void onItemClicked(int pos, Recipe recipe);
-    void onNextPressed(int nextposition);
-    void onBackPressed(int previousPosition);
+    void onNextPressed(int nextposition, ArrayList<Steps> stepsArrayList);
+    void onBackPressed(int previousPosition, ArrayList<Steps> stepsArrayList);
 }

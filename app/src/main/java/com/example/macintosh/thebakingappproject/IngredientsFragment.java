@@ -20,6 +20,7 @@ import java.util.List;
 public class IngredientsFragment extends Fragment {
 
     public IngredientsFragment() {
+
     }
 
 
