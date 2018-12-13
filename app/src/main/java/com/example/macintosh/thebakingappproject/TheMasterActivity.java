@@ -8,7 +8,7 @@ import android.view.MenuItem;
 
 import com.example.macintosh.thebakingappproject.Models.Ingredient;
 import com.example.macintosh.thebakingappproject.Models.Recipe;
-import com.example.macintosh.thebakingappproject.Models.Steps;
+import com.example.macintosh.thebakingappproject.Models.Step;
 
 import java.util.ArrayList;
 
@@ -77,13 +77,13 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
         }
         else{
             //TODO 7: pass bundle to Step Fragment
-            replaceStepsDetailFragment(pos - 1, (ArrayList<Steps>) recipe.getSteps());
+            replaceStepsDetailFragment(pos - 1, (ArrayList<Step>) recipe.getSteps());
         }
     }
 
-    private void replaceStepsDetailFragment(int pos, ArrayList<Steps> stepsArrayList) {
+    private void replaceStepsDetailFragment(int pos, ArrayList<Step> stepArrayList) {
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("stepsList",stepsArrayList);
+        bundle.putParcelableArrayList("stepsList", stepArrayList);
         bundle.putInt("currentposition",pos);
 
         //TODO 4: contain StepsDetailFragment
@@ -95,13 +95,13 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
     }
 
     @Override
-    public void onNextPressed(int nextposition, ArrayList<Steps> stepsArrayList) {
-        replaceStepsDetailFragment(nextposition, stepsArrayList);
+    public void onNextPressed(int nextposition, ArrayList<Step> stepArrayList) {
+        replaceStepsDetailFragment(nextposition, stepArrayList);
     }
 
     @Override
-    public void onBackPressed(int previousPosition, ArrayList<Steps> stepsArrayList) {
-        replaceStepsDetailFragment(previousPosition, stepsArrayList);
+    public void onBackPressed(int previousPosition, ArrayList<Step> stepArrayList) {
+        replaceStepsDetailFragment(previousPosition, stepArrayList);
     }
 
 

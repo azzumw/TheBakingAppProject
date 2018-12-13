@@ -1,21 +1,10 @@
 package com.example.macintosh.thebakingappproject;
 
 import android.content.Intent;
-import android.nfc.NfcAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.example.macintosh.thebakingappproject.Models.Ingredient;
 import com.example.macintosh.thebakingappproject.Models.Recipe;
-import com.example.macintosh.thebakingappproject.Models.Steps;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class RecipeDetailMasterListActivity extends AppCompatActivity {
 
@@ -49,7 +38,7 @@ public class RecipeDetailMasterListActivity extends AppCompatActivity {
 //        }
 //        else{
             //pass steps data
-//            Steps step = recipe.getSteps().get(pos-1);
+//            Step step = recipe.getSteps().get(pos-1);
 //            bundle.putParcelable("step", step);
 //        }
 

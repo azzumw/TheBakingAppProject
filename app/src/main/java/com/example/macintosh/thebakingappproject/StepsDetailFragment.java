@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.macintosh.thebakingappproject.Models.Steps;
+import com.example.macintosh.thebakingappproject.Models.Step;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class StepsDetailFragment extends Fragment {
     private int currentPosition;
     private int nextPosition;
     private int previousPosition;
-    private ArrayList<Steps> stepsArrayList;
+    private ArrayList<Step> stepArrayList;
     private OnImageClickListener onImageClickListener;
 
 
@@ -53,13 +53,13 @@ public class StepsDetailFragment extends Fragment {
         Bundle bundle = getArguments();
         if(bundle!= null){
 
-                stepsArrayList = bundle.getParcelableArrayList("stepsList");
+                stepArrayList = bundle.getParcelableArrayList("stepsList");
 
                 currentPosition = bundle.getInt("currentposition");  // 5
                 previousPosition = currentPosition-1;
                 nextPosition = currentPosition+1; //6
 
-                textView.setText(stepsArrayList.get(currentPosition).getShortDescription()); //5
+                textView.setText(stepArrayList.get(currentPosition).getShortDescription()); //5
         }
 
 
@@ -70,7 +70,7 @@ public class StepsDetailFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-                    if(currentPosition<stepsArrayList.size()-1){
+                    if(currentPosition< stepArrayList.size()-1){
                         showNextStep(nextPosition); //6
                     }
                     else{
@@ -100,8 +100,8 @@ public class StepsDetailFragment extends Fragment {
 //    public void setNextData(int pnextPosition){
 //        currentPosition = pnextPosition;
 //        previousPosition = currentPosition-1;
-//        textView.setText(stepsArrayList.get(currentPosition).getShortDescription());
-//        if(nextPosition<stepsArrayList.size()-1){
+//        textView.setText(stepArrayList.get(currentPosition).getShortDescription());
+//        if(nextPosition<stepArrayList.size()-1){
 //            nextPosition = currentPosition+1;
 //        }
 //    }
@@ -110,15 +110,15 @@ public class StepsDetailFragment extends Fragment {
 //        currentPosition = previousData;
 //        nextPosition = currentPosition+1;
 //        previousPosition = currentPosition-1;
-//        textView.setText(stepsArrayList.get(currentPosition).getShortDescription());
+//        textView.setText(stepArrayList.get(currentPosition).getShortDescription());
 //    }
 
     private void showNextStep(int nextPosition){
-        onImageClickListener.onNextPressed(nextPosition, stepsArrayList); //6, 7
+        onImageClickListener.onNextPressed(nextPosition, stepArrayList); //6, 7
     }
 
     private void showPreviousStep(int previousPosition){
-        onImageClickListener.onBackPressed(previousPosition, stepsArrayList);
+        onImageClickListener.onBackPressed(previousPosition, stepArrayList);
     }
 
     private Button showNextButton(View view){

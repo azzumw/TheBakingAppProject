@@ -21,7 +21,7 @@ public class Recipe implements Parcelable{
     private List<Ingredient> ingredients = null;
     @SerializedName("steps")
     @Expose
-    private List<Steps> steps = null;
+    private List<Step> steps = null;
     @SerializedName("servings")
     @Expose
     private Integer servings;
@@ -29,7 +29,7 @@ public class Recipe implements Parcelable{
     @Expose
     private String image;
 
-    public Recipe(Integer id, String name, ArrayList<Ingredient> ingredients, ArrayList<Steps> steps, Integer servings, String image) {
+    public Recipe(Integer id, String name, ArrayList<Ingredient> ingredients, ArrayList<Step> steps, Integer servings, String image) {
         this.id = id;
         this.name = name;
         this.ingredients = ingredients;
@@ -63,11 +63,11 @@ public class Recipe implements Parcelable{
         this.ingredients = ingredients;
     }
 
-    public List<Steps> getSteps() {
+    public List<Step> getSteps() {
         return steps;
     }
 
-    public void setSteps(List<Steps> steps) {
+    public void setSteps(List<Step> steps) {
         this.steps = steps;
     }
 
@@ -97,8 +97,8 @@ public class Recipe implements Parcelable{
             ingredients = null;
         }
         if (in.readByte() == 0x01) {
-            steps = new ArrayList<Steps>();
-            in.readList(steps, Steps.class.getClassLoader());
+            steps = new ArrayList<Step>();
+            in.readList(steps, Step.class.getClassLoader());
         } else {
             steps = null;
         }

@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Steps implements Parcelable{
+public class Step implements Parcelable{
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -23,7 +23,7 @@ public class Steps implements Parcelable{
     @Expose
     private String thumbnailURL;
 
-    public Steps(Integer id, String shortDescription, String description, String videoURL, String thumbnailURL) {
+    public Step(Integer id, String shortDescription, String description, String videoURL, String thumbnailURL) {
         this.id = id;
         this.shortDescription = shortDescription;
         this.description = description;
@@ -31,7 +31,7 @@ public class Steps implements Parcelable{
         this.thumbnailURL = thumbnailURL;
     }
 
-    protected Steps(Parcel in) {
+    protected Step(Parcel in) {
         if (in.readByte() == 0) {
             id = null;
         } else {
@@ -43,15 +43,15 @@ public class Steps implements Parcelable{
         thumbnailURL = in.readString();
     }
 
-    public static final Creator<Steps> CREATOR = new Creator<Steps>() {
+    public static final Creator<Step> CREATOR = new Creator<Step>() {
         @Override
-        public Steps createFromParcel(Parcel in) {
-            return new Steps(in);
+        public Step createFromParcel(Parcel in) {
+            return new Step(in);
         }
 
         @Override
-        public Steps[] newArray(int size) {
-            return new Steps[size];
+        public Step[] newArray(int size) {
+            return new Step[size];
         }
     };
 

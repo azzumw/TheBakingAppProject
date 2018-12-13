@@ -7,15 +7,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.macintosh.thebakingappproject.Models.Ingredient;
-import com.example.macintosh.thebakingappproject.Models.Steps;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class IngredientsFragment extends Fragment {
 

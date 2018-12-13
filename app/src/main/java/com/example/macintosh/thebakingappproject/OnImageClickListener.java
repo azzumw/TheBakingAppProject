@@ -1,13 +1,12 @@
 package com.example.macintosh.thebakingappproject;
 
 import com.example.macintosh.thebakingappproject.Models.Recipe;
-import com.example.macintosh.thebakingappproject.Models.Steps;
+import com.example.macintosh.thebakingappproject.Models.Step;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public interface OnImageClickListener {
     void onItemClicked(int pos, Recipe recipe);
-    void onNextPressed(int nextposition, ArrayList<Steps> stepsArrayList);
-    void onBackPressed(int previousPosition, ArrayList<Steps> stepsArrayList);
+    void onNextPressed(int nextposition, ArrayList<Step> stepArrayList);
+    void onBackPressed(int previousPosition, ArrayList<Step> stepArrayList);
 }
