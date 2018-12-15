@@ -5,23 +5,30 @@
     android:id="@+id/linear"
     android:orientation="vertical">
 
-    <FrameLayout
+    <!--<FrameLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_alignParentTop="true"
         android:id="@+id/stepDetailFrameLayout">
 
-        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/simpleExoPlayerView">
 
-        </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
-    </FrameLayout>
+
+
+    </FrameLayout>-->
+
+    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:visibility="gone"
+        android:id="@+id/simpleExoPlayerView">
+
+    </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_below="@+id/stepDetailFrameLayout"
+        android:layout_below="@+id/simpleExoPlayerView"
         android:layout_margin="8dp"
         android:hint="hello"
         android:id="@+id/textView2"/>

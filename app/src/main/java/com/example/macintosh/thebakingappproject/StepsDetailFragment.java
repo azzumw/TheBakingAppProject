@@ -5,20 +5,25 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.macintosh.thebakingappproject.Models.Step;
+import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 
 import java.util.ArrayList;
 
 public class StepsDetailFragment extends Fragment {
 
+    private FrameLayout frameLayout;
+    private SimpleExoPlayerView simpleExoPlayerView;
     private TextView stepInstructionTv;
     private int currentPosition;
     private int nextPosition;
@@ -50,7 +55,8 @@ public class StepsDetailFragment extends Fragment {
         View rootview = inflater.inflate(R.layout.fragment_steps_details,container,false);
 
         stepInstructionTv = rootview.findViewById(R.id.textView2);
-
+        simpleExoPlayerView = rootview.findViewById(R.id.simpleExoPlayerView);
+//        frameLayout = rootview.findViewById(R.id.stepDetailFrameLayout);
 
         Bundle bundle = getArguments();
         if(bundle!= null){
@@ -64,6 +70,15 @@ public class StepsDetailFragment extends Fragment {
 
 //                stepInstructionTv.setText(stepArrayList.get(currentPosition).getDescription()); //5
                 stepInstructionTv.setText(step.getDescription());
+
+                if (step.getVideoURL().length()>0){
+                    Log.e("STEP DETIAL FRAGMENT: " + currentPosition,step.getVideoURL());
+//                    frameLayout.setVisibility(View.VISIBLE);
+                    simpleExoPlayerView.setVisibility(View.VISIBLE);
+                }else {
+                    simpleExoPlayerView.setVisibility(View.GONE);
+//                    frameLayout.setVisibility(View.GONE);
+                }
         }
 
 
