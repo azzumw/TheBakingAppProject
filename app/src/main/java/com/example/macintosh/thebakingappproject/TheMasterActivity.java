@@ -15,6 +15,8 @@ import java.util.ArrayList;
 public class TheMasterActivity extends AppCompatActivity implements OnImageClickListener{
 
     FragmentManager fragmentManager;
+    Recipe recipe;
+    ArrayList<Step> stepArrayList;
 
 
     @Override
@@ -25,8 +27,8 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
         //TODO 2: get data from MainActivity
         Intent intent = getIntent();
         Bundle bundle  = intent.getParcelableExtra("rBundle");
-
-
+        recipe = bundle.getParcelable("bundle");
+        stepArrayList = (ArrayList<Step>) recipe.getSteps();
         //TODO 3: contain RecipeDetailMasterListFragment
 
             fragmentManager = getSupportFragmentManager();
@@ -77,15 +79,17 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
         }
         else{
             //TODO 7: pass bundle to Step Fragment
-            replaceStepsDetailFragment(pos - 1, (ArrayList<Step>) recipe.getSteps());
+            replaceStepsDetailFragment(pos - 1);
         }
     }
 
-    private void replaceStepsDetailFragment(int pos, ArrayList<Step> stepArrayList) {
+    private void replaceStepsDetailFragment(int pos) {
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("stepsList", stepArrayList);
+        bundle.putInt("stepArraySize",stepArrayList.size());
+//        bundle.putParcelableArrayList("stepsList", stepArrayList);
         bundle.putInt("currentposition",pos);
-
+        //pass the next step
+        bundle.putParcelable("theNextStep",stepArrayList.get(pos));
         //TODO 4: contain StepsDetailFragment
         StepsDetailFragment stepsDetailFragment = new StepsDetailFragment();
         stepsDetailFragment.setArguments(bundle);
@@ -95,13 +99,13 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
     }
 
     @Override
-    public void onNextPressed(int nextposition, ArrayList<Step> stepArrayList) {
-        replaceStepsDetailFragment(nextposition, stepArrayList);
+    public void onNextPressed(int nextposition) {
+        replaceStepsDetailFragment(nextposition);
     }
 
     @Override
-    public void onBackPressed(int previousPosition, ArrayList<Step> stepArrayList) {
-        replaceStepsDetailFragment(previousPosition, stepArrayList);
+    public void onBackPressed(int previousPosition) {
+        replaceStepsDetailFragment(previousPosition);
     }
 
 

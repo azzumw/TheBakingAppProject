@@ -19,11 +19,13 @@ import java.util.ArrayList;
 
 public class StepsDetailFragment extends Fragment {
 
-    private TextView textView;
+    private TextView stepInstructionTv;
     private int currentPosition;
     private int nextPosition;
     private int previousPosition;
-    private ArrayList<Step> stepArrayList;
+//    private ArrayList<Step> stepArrayList;
+    private int STEP_ARRAY_SIZE;
+    private Step step;
     private OnImageClickListener onImageClickListener;
 
 
@@ -45,21 +47,23 @@ public class StepsDetailFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.fragment_steps_ingred_details,container,false);
+        View rootview = inflater.inflate(R.layout.fragment_steps_details,container,false);
 
-        textView = rootview.findViewById(R.id.textView2);
+        stepInstructionTv = rootview.findViewById(R.id.textView2);
 
 
         Bundle bundle = getArguments();
         if(bundle!= null){
 
-                stepArrayList = bundle.getParcelableArrayList("stepsList");
-
+//                stepArrayList = bundle.getParcelableArrayList("stepsList");
+                STEP_ARRAY_SIZE = bundle.getInt("stepArraySize");
+                step = bundle.getParcelable("theNextStep");
                 currentPosition = bundle.getInt("currentposition");  // 5
                 previousPosition = currentPosition-1;
                 nextPosition = currentPosition+1; //6
 
-                textView.setText(stepArrayList.get(currentPosition).getShortDescription()); //5
+//                stepInstructionTv.setText(stepArrayList.get(currentPosition).getDescription()); //5
+                stepInstructionTv.setText(step.getDescription());
         }
 
 
@@ -70,7 +74,7 @@ public class StepsDetailFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-                    if(currentPosition< stepArrayList.size()-1){
+                    if(currentPosition< STEP_ARRAY_SIZE-1){
                         showNextStep(nextPosition); //6
                     }
                     else{
@@ -114,11 +118,11 @@ public class StepsDetailFragment extends Fragment {
 //    }
 
     private void showNextStep(int nextPosition){
-        onImageClickListener.onNextPressed(nextPosition, stepArrayList); //6, 7
+        onImageClickListener.onNextPressed(nextPosition); //6, 7
     }
 
     private void showPreviousStep(int previousPosition){
-        onImageClickListener.onBackPressed(previousPosition, stepArrayList);
+        onImageClickListener.onBackPressed(previousPosition);
     }
 
     private Button showNextButton(View view){

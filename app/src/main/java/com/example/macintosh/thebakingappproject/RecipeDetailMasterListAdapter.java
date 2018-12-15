@@ -64,7 +64,11 @@ public class RecipeDetailMasterListAdapter extends BaseAdapter{
 
     private void fillArrayList(int size){
         stringList.add("Ingredients");
-        for(int i=1; i < size; i++){
+        for(int i=0; i < size-1; i++){
+            if(i == 0){
+                stringList.add("Recipe Introduction");
+                continue;
+            }
             stringList.add("Step " + i);
         }
     }
