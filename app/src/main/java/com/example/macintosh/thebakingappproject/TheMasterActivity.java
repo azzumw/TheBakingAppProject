@@ -43,15 +43,6 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
 
     }
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

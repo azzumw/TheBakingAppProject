@@ -72,6 +72,12 @@ public class StepsDetailFragment extends Fragment {
                     simpleExoPlayerView.setVisibility(View.VISIBLE);
                     player = MyExoPlayer.getExoPLayerInstance(step.getVideoURL(),getContext());
                     simpleExoPlayerView.setPlayer(player);
+                    if(savedInstanceState!=null){
+                        long mResumePosition = savedInstanceState.getLong("currentVideoPosition");
+                        int  mResumeWindowPostion = savedInstanceState.getInt("currentWindowFrame");
+                        player.seekTo(mResumeWindowPostion,mResumePosition);
+                        player.setPlayWhenReady(true);
+                    }
                 }else {
                     simpleExoPlayerView.setVisibility(View.GONE);
                 }
@@ -152,5 +158,19 @@ public class StepsDetailFragment extends Fragment {
         linearLayout.addView(btnTag);
         return btnTag;
 
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong("currentVideoPosition",player.getCurrentPosition());
+        outState.putInt("currentWindowFrame",player.getCurrentWindowIndex());
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        MyExoPlayer.clearPlayerResources();
     }
 }
