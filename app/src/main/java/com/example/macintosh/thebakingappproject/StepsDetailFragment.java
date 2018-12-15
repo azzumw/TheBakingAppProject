@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,23 +15,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.macintosh.thebakingappproject.Models.Step;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
-
-import java.util.ArrayList;
 
 public class StepsDetailFragment extends Fragment {
 
-    private FrameLayout frameLayout;
-    private SimpleExoPlayerView simpleExoPlayerView;
     private TextView stepInstructionTv;
     private int currentPosition;
     private int nextPosition;
     private int previousPosition;
-//    private ArrayList<Step> stepArrayList;
+
     private int STEP_ARRAY_SIZE;
     private Step step;
+
     private OnImageClickListener onImageClickListener;
 
+    private SimpleExoPlayer player;
+    private SimpleExoPlayerView simpleExoPlayerView;
 
     public StepsDetailFragment() {
 
@@ -56,28 +56,24 @@ public class StepsDetailFragment extends Fragment {
 
         stepInstructionTv = rootview.findViewById(R.id.textView2);
         simpleExoPlayerView = rootview.findViewById(R.id.simpleExoPlayerView);
-//        frameLayout = rootview.findViewById(R.id.stepDetailFrameLayout);
 
         Bundle bundle = getArguments();
         if(bundle!= null){
 
-//                stepArrayList = bundle.getParcelableArrayList("stepsList");
                 STEP_ARRAY_SIZE = bundle.getInt("stepArraySize");
                 step = bundle.getParcelable("theNextStep");
                 currentPosition = bundle.getInt("currentposition");  // 5
                 previousPosition = currentPosition-1;
                 nextPosition = currentPosition+1; //6
 
-//                stepInstructionTv.setText(stepArrayList.get(currentPosition).getDescription()); //5
                 stepInstructionTv.setText(step.getDescription());
 
                 if (step.getVideoURL().length()>0){
-                    Log.e("STEP DETIAL FRAGMENT: " + currentPosition,step.getVideoURL());
-//                    frameLayout.setVisibility(View.VISIBLE);
                     simpleExoPlayerView.setVisibility(View.VISIBLE);
+                    player = MyExoPlayer.getExoPLayerInstance(step.getVideoURL(),getContext());
+                    simpleExoPlayerView.setPlayer(player);
                 }else {
                     simpleExoPlayerView.setVisibility(View.GONE);
-//                    frameLayout.setVisibility(View.GONE);
                 }
         }
 
@@ -90,6 +86,7 @@ public class StepsDetailFragment extends Fragment {
                 public void onClick(View v) {
 
                     if(currentPosition< STEP_ARRAY_SIZE-1){
+                        MyExoPlayer.clearPlayerResources();
                         showNextStep(nextPosition); //6
                     }
                     else{
@@ -103,6 +100,7 @@ public class StepsDetailFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if(currentPosition>0){
+                        MyExoPlayer.clearPlayerResources();
                         showPreviousStep(previousPosition);
                     }else{
                         Toast.makeText(getContext(),"Start of list",Toast.LENGTH_SHORT).show();
@@ -115,22 +113,6 @@ public class StepsDetailFragment extends Fragment {
         return rootview;
 
     }
-
-//    public void setNextData(int pnextPosition){
-//        currentPosition = pnextPosition;
-//        previousPosition = currentPosition-1;
-//        textView.setText(stepArrayList.get(currentPosition).getShortDescription());
-//        if(nextPosition<stepArrayList.size()-1){
-//            nextPosition = currentPosition+1;
-//        }
-//    }
-//
-//    public void setPreviousData(int previousData) {
-//        currentPosition = previousData;
-//        nextPosition = currentPosition+1;
-//        previousPosition = currentPosition-1;
-//        textView.setText(stepArrayList.get(currentPosition).getShortDescription());
-//    }
 
     private void showNextStep(int nextPosition){
         onImageClickListener.onNextPressed(nextPosition); //6, 7
