@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -51,7 +52,7 @@ public class RecipeDetailMasterListFragment extends Fragment {
         Bundle bundle = getArguments();
         recipe = bundle.getParcelable("bundle");
 //        recipe = intent.getParcelableExtra("recipe");
-
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(recipe.getName());
         Log.e(getClass().getSimpleName(),recipe.getName());
 
 

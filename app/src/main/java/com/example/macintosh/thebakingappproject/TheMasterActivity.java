@@ -41,6 +41,7 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
     }
 
 
@@ -59,6 +60,7 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
 
         if (pos == 0) {
             ArrayList<Ingredient> ingredients = (ArrayList<Ingredient>) recipe.getIngredients();
+            bundle.putString("Title",recipe.getName());
             bundle.putParcelableArrayList("ingredients",ingredients);
             //TODO 6: create Ingredients Fragment
             IngredientsFragment ingredientsFragment = new IngredientsFragment();
