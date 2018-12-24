@@ -22,7 +22,7 @@ import com.google.android.exoplayer2.util.Util;
 public class MyExoPlayer {
     static SimpleExoPlayer player;
 
-    public static SimpleExoPlayer getExoPLayerInstance(String url, Context context){
+    public static SimpleExoPlayer getExoPLayerInstance(String url, Context context,boolean autoplay, int currentWindow, long currentPlayPosition){
         if(player == null){
             Uri uri = Uri.parse(url);
             String userAgent = Util.getUserAgent(context, context.getApplicationInfo().packageName);
@@ -41,6 +41,10 @@ public class MyExoPlayer {
 
 
             player.prepare(mediaSource);
+
+            player.seekTo(currentWindow,currentPlayPosition);
+
+            player.setPlayWhenReady(autoplay);
         }
 
 

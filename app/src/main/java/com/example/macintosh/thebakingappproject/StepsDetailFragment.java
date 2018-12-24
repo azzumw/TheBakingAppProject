@@ -56,7 +56,6 @@ public class StepsDetailFragment extends Fragment {
     public static final String PLAYBACK_POSITION = "playback_position";
 
     public StepsDetailFragment() {
-
     }
 
     @Override
@@ -82,7 +81,6 @@ public class StepsDetailFragment extends Fragment {
     }
 
     private void initialisePlayer(){
-
 
             Uri uri = Uri.parse(step.getVideoURL());
 
@@ -156,7 +154,9 @@ public class StepsDetailFragment extends Fragment {
                 public void onClick(View v) {
 
                     if(currentPosition< STEP_ARRAY_SIZE-1){
-                        MyExoPlayer.clearPlayerResources();
+                        releasePlayer();
+//                        MyExoPlayer.clearPlayerResources();
+
                         showNextStep(nextPosition); //6
                     }
                     else{
@@ -170,7 +170,8 @@ public class StepsDetailFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if(currentPosition>0){
-                        MyExoPlayer.clearPlayerResources();
+                        releasePlayer();
+//                        MyExoPlayer.clearPlayerResources();
                         showPreviousStep(previousPosition);
                     }else{
                         Toast.makeText(getContext(),"Start of list",Toast.LENGTH_SHORT).show();
@@ -259,6 +260,6 @@ public class StepsDetailFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        autoPlay = true;
+            autoPlay = true;
     }
 }

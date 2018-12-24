@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
 
     @Override
     public void onClickHandler(Recipe recipe) {
-//        Class recipeDetailMasterListActivity = RecipeDetailMasterListActivity.class;
+
         Bundle bundle = new Bundle();
         //TODO 1: call TheMasterListActivity.class
         Intent intent = new Intent(this,TheMasterActivity.class);
