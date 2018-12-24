@@ -1,16 +1,17 @@
 package com.example.macintosh.thebakingappproject;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,7 +19,19 @@ import android.widget.Toast;
 import com.example.macintosh.thebakingappproject.Models.Step;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.BandwidthMeter;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
 
 public class StepsDetailFragment extends Fragment {
 
@@ -33,7 +46,14 @@ public class StepsDetailFragment extends Fragment {
     private OnImageClickListener onImageClickListener;
 
     private SimpleExoPlayer player;
-    private SimpleExoPlayerView simpleExoPlayerView;
+    private PlayerView simpleExoPlayerView;
+    private int currentWindow;
+    private long playBackPosition;
+    private boolean autoPlay = false;
+
+    public static final String AUTOPLAY = "autoplay";
+    public static final String CURRENT_WINDOW_INDEX = "current_window_index";
+    public static final String PLAYBACK_POSITION = "playback_position";
 
     public StepsDetailFragment() {
 
@@ -49,6 +69,50 @@ public class StepsDetailFragment extends Fragment {
         }
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(step.getVideoURL().length()>0){
+            initialisePlayer();
+        }else{
+            simpleExoPlayerView.setVisibility(View.GONE);
+        }
+
+    }
+
+    private void initialisePlayer(){
+
+
+            Uri uri = Uri.parse(step.getVideoURL());
+
+            //create exoplayer object
+            BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+
+            TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
+            TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
+            player = ExoPlayerFactory.newSimpleInstance(getContext(),trackSelector);
+
+            MediaSource mediaSource = buildMediaSource(uri);
+            player.prepare(mediaSource);
+            //attach the player to the view
+            simpleExoPlayerView.setPlayer(player);
+            player.seekTo(currentWindow,playBackPosition);
+            player.setPlayWhenReady(autoPlay);
+            simpleExoPlayerView.setVisibility(View.VISIBLE);
+    }
+
+    private MediaSource buildMediaSource(Uri uri) {
+        DefaultExtractorsFactory extractorSourceFactory = new DefaultExtractorsFactory();
+//        DefaultHttpDataSourceFactory dataSourceFactory = new DefaultHttpDataSourceFactory("ua");
+
+        String userAgent = Util.getUserAgent(getContext(), getActivity().getApplicationContext().getApplicationInfo().packageName);
+        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getContext(), userAgent);
+
+//        ExtractorMediaSource audioSource = new ExtractorMediaSource(uri, dataSourceFactory, extractorSourceFactory, null, null);
+        // this return a single mediaSource object. i.e. no next, previous buttons to play next/prev media file
+        return new ExtractorMediaSource(uri, dataSourceFactory, extractorSourceFactory, null, null);
+    }
 
     @Nullable
     @Override
@@ -71,20 +135,17 @@ public class StepsDetailFragment extends Fragment {
 
                 stepInstructionTv.setText(step.getDescription());
 
-                if (step.getVideoURL().length()>0){
-                    simpleExoPlayerView.setVisibility(View.VISIBLE);
-                    player = MyExoPlayer.getExoPLayerInstance(step.getVideoURL(),getContext());
-                    simpleExoPlayerView.setPlayer(player);
-                    if(savedInstanceState!=null){
-                        long mResumePosition = savedInstanceState.getLong("currentVideoPosition");
-                        int  mResumeWindowPostion = savedInstanceState.getInt("currentWindowFrame");
-                        player.seekTo(mResumeWindowPostion,mResumePosition);
-                        player.setPlayWhenReady(true);
-                    }
-                }else {
-                    simpleExoPlayerView.setVisibility(View.GONE);
-                }
         }
+
+        if(savedInstanceState!= null){
+            Log.e("ON_CREATE","saveinstance");
+            currentWindow = savedInstanceState.getInt(CURRENT_WINDOW_INDEX);
+            playBackPosition = savedInstanceState.getLong(PLAYBACK_POSITION);
+            autoPlay = savedInstanceState.getBoolean(AUTOPLAY);
+
+        }
+
+
 
 
         Button backBtn = showBackButton(rootview);
@@ -164,16 +225,40 @@ public class StepsDetailFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putLong("currentVideoPosition",player.getCurrentPosition());
-        outState.putInt("currentWindowFrame",player.getCurrentWindowIndex());
+        Log.e("ON_SAVE","before");
+        if(player==null){
+            Log.e("ON_SAVE","ONSAVE");
+            outState.putInt(CURRENT_WINDOW_INDEX,currentWindow);
+            outState.putLong(PLAYBACK_POSITION,playBackPosition);
+            outState.putBoolean(AUTOPLAY,autoPlay);
+        }
+    }
+
+    private void releasePlayer(){
+        if (player != null) {
+            currentWindow = player.getCurrentWindowIndex();
+            playBackPosition = player.getCurrentPosition();
+            autoPlay =false;
+            player.release();
+            player = null;
+        }
 
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        MyExoPlayer.clearPlayerResources();
+    public void onPause() {
+        super.onPause();
+        Log.e("ON_PAUSE","ONPAUSE");
+        releasePlayer();
+    }
+
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        autoPlay = true;
     }
 }

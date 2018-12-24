@@ -25,14 +25,18 @@ public class IngredientsAdapter extends ArrayAdapter<Ingredient> {
         View listItemView = convertView;
 
         if(listItemView == null){
-            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.main_recipe_list_item,parent,false);
+            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.ingredient_list_item,parent,false);
         }
 
         Ingredient ingredient = getItem(position);
 
-        TextView textView =  listItemView.findViewById(R.id.recipeTitleTv);
+        TextView ingredientNameTextView =  listItemView.findViewById(R.id.ingred_name_tv);
+        TextView ingredientMeasureTextView = listItemView.findViewById(R.id.ingred_measure_tv);
+        TextView ingredientQuantityTextView = listItemView.findViewById(R.id.ingred_quantity_tv);
 
-        textView.setText(ingredient.getIngredient());
+        ingredientNameTextView.setText(ingredient.getIngredient());
+        ingredientMeasureTextView.setText(ingredient.getMeasure());
+        ingredientQuantityTextView.setText(String.valueOf(ingredient.getQuantity()));
 
         return listItemView;
     }

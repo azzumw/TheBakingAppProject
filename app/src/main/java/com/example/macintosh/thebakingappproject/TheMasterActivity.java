@@ -31,7 +31,7 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
         stepArrayList = (ArrayList<Step>) recipe.getSteps();
         //TODO 3: contain RecipeDetailMasterListFragment
 
-            fragmentManager = getSupportFragmentManager();
+        fragmentManager = getSupportFragmentManager();
 
         if (savedInstanceState == null) {
             RecipeDetailMasterListFragment recipeDetailMasterListFragment = new RecipeDetailMasterListFragment();
@@ -40,7 +40,6 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
         }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
     }
 
@@ -79,7 +78,6 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
     private void replaceStepsDetailFragment(int pos) {
         Bundle bundle = new Bundle();
         bundle.putInt("stepArraySize",stepArrayList.size());
-//        bundle.putParcelableArrayList("stepsList", stepArrayList);
         bundle.putInt("currentposition",pos);
         //pass the next step
         bundle.putParcelable("theNextStep",stepArrayList.get(pos));
@@ -103,23 +101,3 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
 
 
 }
-
-
-    /* @Override
-    public void onBackPressed() {
-
-        if(fragmentManager.getBackStackEntryCount()>0){
-            fragmentManager.popBackStack();
-        }else{
-            super.onBackPressed();
-        }
-
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        super.onSupportNavigateUp();
-        onBackPressed();
-        return true;
-    }*/
-
