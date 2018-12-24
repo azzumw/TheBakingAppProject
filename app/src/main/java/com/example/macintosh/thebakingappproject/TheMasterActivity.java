@@ -18,18 +18,17 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
     Recipe recipe;
     ArrayList<Step> stepArrayList;
 
+    private boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_the_master);
 
-        //TODO 2: get data from MainActivity
         Intent intent = getIntent();
         Bundle bundle  = intent.getParcelableExtra("rBundle");
         recipe = bundle.getParcelable("bundle");
         stepArrayList = (ArrayList<Step>) recipe.getSteps();
-        //TODO 3: contain RecipeDetailMasterListFragment
 
         fragmentManager = getSupportFragmentManager();
 
@@ -38,6 +37,8 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
             recipeDetailMasterListFragment.setArguments(bundle);
             fragmentManager.beginTransaction().add(R.id.fragmentContainerFLMasterAct,recipeDetailMasterListFragment,"recipeDetailMasterListFragmentTag").commit();
         }
+
+
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
