@@ -17,6 +17,7 @@
     <!--a small divider-->
     <View
         android:layout_width="1dp"
+        android:id="@+id/view_div"
         android:layout_height="match_parent"
         android:background="#000"/>
 

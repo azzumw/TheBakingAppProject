@@ -1,6 +1,7 @@
 package com.example.macintosh.thebakingappproject;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,12 +33,31 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
 
         fragmentManager = getSupportFragmentManager();
 
-        if (savedInstanceState == null) {
-            RecipeDetailMasterListFragment recipeDetailMasterListFragment = new RecipeDetailMasterListFragment();
-            recipeDetailMasterListFragment.setArguments(bundle);
-            fragmentManager.beginTransaction().add(R.id.fragmentContainerFLMasterAct,recipeDetailMasterListFragment,"recipeDetailMasterListFragmentTag").commit();
-        }
 
+
+
+        if(findViewById(R.id.tab_root_linear_layout)!= null){
+            mTwoPane = true;
+            if(savedInstanceState==null){
+                Bundle ingredBundle = new Bundle();
+                bundle.putString("Title",recipe.getName());
+                bundle.putParcelableArrayList("ingredients",(ArrayList<Ingredient>) recipe.getIngredients());
+                IngredientsFragment ingredientsFragment = new IngredientsFragment();
+                ingredientsFragment.setArguments(ingredBundle);
+                fragmentManager.beginTransaction().add(R.id.fragmentContainerFLMasterAct,ingredientsFragment,"recipeDetailMasterListFragmentTag").commit();
+
+            }
+
+
+        }else{
+            mTwoPane = false;
+
+            if (savedInstanceState == null) {
+                RecipeDetailMasterListFragment recipeDetailMasterListFragment = new RecipeDetailMasterListFragment();
+                recipeDetailMasterListFragment.setArguments(bundle);
+                fragmentManager.beginTransaction().add(R.id.fragmentContainerFLMasterAct,recipeDetailMasterListFragment,"recipeDetailMasterListFragmentTag").commit();
+            }
+        }
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -62,10 +82,8 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
             ArrayList<Ingredient> ingredients = (ArrayList<Ingredient>) recipe.getIngredients();
             bundle.putString("Title",recipe.getName());
             bundle.putParcelableArrayList("ingredients",ingredients);
-            //TODO 6: create Ingredients Fragment
             IngredientsFragment ingredientsFragment = new IngredientsFragment();
             ingredientsFragment.setArguments(bundle);
-            //TODO 5: contain IngredientFragment
 
             fragmentManager.beginTransaction().replace(R.id.fragmentContainerFLMasterAct,ingredientsFragment,"ingredientsFragmentTag").addToBackStack(null).commit();
 
