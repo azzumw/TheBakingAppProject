@@ -1,6 +1,7 @@
 package com.example.macintosh.thebakingappproject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -49,7 +50,12 @@ public class RecipeDetailMasterListFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_master_list,container,false);
 
 //        Intent intent = getActivity().getIntent();
-        Bundle bundle = getArguments();
+
+
+//        Bundle bundle = getArguments();
+
+        Bundle bundle = getActivity().getIntent().getParcelableExtra("rBundle");
+
         recipe = bundle.getParcelable("bundle");
 //        recipe = intent.getParcelableExtra("recipe");
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(recipe.getName());

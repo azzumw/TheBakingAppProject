@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
 
         }else{
             //tablet
-            linearLayoutManager = new GridLayoutManager(this,3,GridLayoutManager.VERTICAL,false);
+            linearLayoutManager = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
             int spanCount = 60; // 3 columns
             mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount));
         }

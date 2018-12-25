@@ -50,7 +50,7 @@ public class RecipeDetailMasterListAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if (convertView == null){
-            convertView = LayoutInflater.from(context).inflate(R.layout.main_recipe_list_item,parent,false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.recipe_detail_list_item,parent,false);
         }
 
         String currentString = (String) getItem(position);

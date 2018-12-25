@@ -34,18 +34,17 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
         fragmentManager = getSupportFragmentManager();
 
 
-
-
         if(findViewById(R.id.tab_root_linear_layout)!= null){
             mTwoPane = true;
             if(savedInstanceState==null){
                 Bundle ingredBundle = new Bundle();
-                bundle.putString("Title",recipe.getName());
-                bundle.putParcelableArrayList("ingredients",(ArrayList<Ingredient>) recipe.getIngredients());
+                ArrayList<Ingredient> ingredients = (ArrayList<Ingredient>) recipe.getIngredients();
+                ingredBundle.putString("Title",recipe.getName());
+                ingredBundle.putParcelableArrayList("ingredients",ingredients);
                 IngredientsFragment ingredientsFragment = new IngredientsFragment();
                 ingredientsFragment.setArguments(ingredBundle);
-                fragmentManager.beginTransaction().add(R.id.fragmentContainerFLMasterAct,ingredientsFragment,"recipeDetailMasterListFragmentTag").commit();
-
+                fragmentManager.beginTransaction().add(R.id.fragmentContainerFLMasterAct,ingredientsFragment,"ingredientsFragmentTag").commit();
+//                fragmentManager.findFragmentByTag("recipeDetailMasterListFragmentTag").setArguments(bundle);
             }
 
 
@@ -84,8 +83,12 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
             bundle.putParcelableArrayList("ingredients",ingredients);
             IngredientsFragment ingredientsFragment = new IngredientsFragment();
             ingredientsFragment.setArguments(bundle);
+            if(mTwoPane){
+                fragmentManager.beginTransaction().replace(R.id.fragmentContainerFLMasterAct,ingredientsFragment,"ingredientsFragmentTag").commit();
+            }else {
+                fragmentManager.beginTransaction().replace(R.id.fragmentContainerFLMasterAct,ingredientsFragment,"ingredientsFragmentTag").addToBackStack(null).commit();
+            }
 
-            fragmentManager.beginTransaction().replace(R.id.fragmentContainerFLMasterAct,ingredientsFragment,"ingredientsFragmentTag").addToBackStack(null).commit();
 
         }
         else{
@@ -105,7 +108,12 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
         stepsDetailFragment.setArguments(bundle);
 
         fragmentManager.popBackStack();
-        fragmentManager.beginTransaction().replace(R.id.fragmentContainerFLMasterAct,stepsDetailFragment,"stepsDetailFragmentTag").addToBackStack(null).commit();
+        if(mTwoPane){
+            fragmentManager.beginTransaction().replace(R.id.fragmentContainerFLMasterAct,stepsDetailFragment,"stepsDetailFragmentTag").commit();
+        }else {
+            fragmentManager.beginTransaction().replace(R.id.fragmentContainerFLMasterAct,stepsDetailFragment,"stepsDetailFragmentTag").addToBackStack(null).commit();
+        }
+
     }
 
     @Override
