@@ -20,7 +20,21 @@
         </activity>
         <activity
             android:name=".TheMasterActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode|layoutDirection"></activity>
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode|layoutDirection">
+
+        </activity>
+
+        <service
+            android:name=".ListViewWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <service android:name=".WidgetUpdateService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.example.macintosh.simplewidget.widgetservice.update_app_widget"/>
+                <action android:name="com.example.macintosh.simplewidget.widgetservice.update_app_widget_list"/>
+            </intent-filter>
+        </service>
 
         <receiver android:name=".RecipeWidgetProvider">
             <intent-filter>
