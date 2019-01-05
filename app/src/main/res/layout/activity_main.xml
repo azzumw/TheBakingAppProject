@@ -13,10 +13,19 @@
 
    </android.support.v7.widget.RecyclerView>
 
+   <ImageView
+       android:layout_width="300dp"
+       android:layout_height="200dp"
+       android:id="@+id/empty_img_view"
+       android:layout_centerInParent="true"
+       android:src="@drawable/no_internet_cloud"
+       android:visibility="gone"/>
+
    <TextView
        android:id="@+id/empty_view"
        android:layout_width="match_parent"
        android:layout_height="match_parent"
+       android:layout_below="@id/empty_img_view"
        android:gravity="center"
        android:visibility="gone"
        android:text="@string/no_internet_error" />

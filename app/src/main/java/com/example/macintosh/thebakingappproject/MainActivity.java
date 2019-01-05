@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.macintosh.thebakingappproject.Models.Recipe;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
     private MainRecipeCustomAdapter mainRecipeCustomAdapter;
     private LinearLayoutManager layoutManager;
     private TextView emptyTv;
+    private ImageView emptyImgView;
 
     private static final int NUM = 10;
     @Override
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         emptyTv = findViewById(R.id.empty_view);
+        emptyImgView = findViewById(R.id.empty_img_view);
 
         mRecyclerView = findViewById(R.id.mainRecipeRV);
         boolean isThisPhone = getResources().getBoolean(R.bool.isPhone);
@@ -66,6 +69,7 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
             public void onFailure(Call<List<Recipe>> call, Throwable t) {
                 Log.e(LOG_TAG,"ERROR:"+ t.toString());
                 mRecyclerView.setVisibility(View.GONE);
+                emptyImgView.setVisibility(View.VISIBLE);
                 emptyTv.setVisibility(View.VISIBLE);
             }
         });
