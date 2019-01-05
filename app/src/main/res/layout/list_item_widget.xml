@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
+    android:background="@android:color/white"
     android:id="@+id/parentView" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/recipeNameTv"
+        android:id="@+id/ingredientNameTv"
         android:text="@string/dummyRecipeName"
-        android:textSize="30sp"/>
+        android:textSize="12sp"
+        android:padding="5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dummy Text"
+        android:textSize="12sp"
+        android:padding="5dp"
+        android:id="@+id/ingredientQtyTv"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:padding="5dp"
+        android:text="Dummy Text"
+        android:id="@+id/ingredientMeasureTv"/>
 
 </LinearLayout>

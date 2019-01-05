@@ -7,14 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.example.macintosh.thebakingappproject.Models.Recipe;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeDetailMasterListRecyclerAdapter extends RecyclerView.Adapter<RecipeDetailMasterListRecyclerAdapter.RecipeDetailMasterListViewHolder> {
-    OnImageClickListener onImageClickListener;
+    private OnImageClickListener onImageClickListener;
 
     private List<String> stringList;
 
@@ -67,8 +64,6 @@ public class RecipeDetailMasterListRecyclerAdapter extends RecyclerView.Adapter<
             super(itemView);
             recipeDetailItemTitle = itemView.findViewById(R.id.recipeTitleTv);
             itemView.setOnClickListener(this);
-
-
         }
 
         @Override

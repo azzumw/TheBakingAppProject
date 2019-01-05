@@ -38,7 +38,6 @@ public class IngredientsFragment extends Fragment {
         Bundle bundle = getArguments();
 
 
-
         if(bundle!=null){
             ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle("Ingredients");
 

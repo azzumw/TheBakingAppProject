@@ -21,12 +21,8 @@ import com.example.macintosh.thebakingappproject.Models.Recipe;
 public class RecipeDetailMasterListFragment extends Fragment{
 
     private Recipe recipe;
-    private LinearLayoutManager linearLayoutManager;
-//    private RecyclerView recyclerView;
 
-    OnImageClickListener mCallBack;
-
-
+    private OnImageClickListener mCallBack;
 
     @Override
     public void onAttach(Context context) {
@@ -39,47 +35,29 @@ public class RecipeDetailMasterListFragment extends Fragment{
     }
 
     public RecipeDetailMasterListFragment(){
-
     }
-
-
-
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_master_list,container,false);
 
-
         Bundle bundle = getActivity().getIntent().getParcelableExtra("rBundle");
 
         recipe = bundle.getParcelable("bundle");
-//        recipe = intent.getParcelableExtra("recipe");
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(recipe.getName());
         Log.e(getClass().getSimpleName(),recipe.getName());
 
-
         RecyclerView recyclerView = rootView.findViewById(R.id.masterListRecyclerView);
-//        ListView listView = rootView.findViewById(R.id.masterListView);
 
-        linearLayoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 
         recyclerView.setLayoutManager(linearLayoutManager);
         //adapter
-//        RecipeDetailMasterListAdapter adapter = new RecipeDetailMasterListAdapter(recipe.getSteps().size(),getContext());
         RecipeDetailMasterListRecyclerAdapter recyclerAdapter = new RecipeDetailMasterListRecyclerAdapter(recipe.getSteps().size(),mCallBack);
 
-//        listView.setAdapter(adapter);
         recyclerView.setAdapter(recyclerAdapter);
 
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                mCallBack.onItemClicked(position,recipe);           //position: 1
-//            }
-//        });
         return rootView;
     }
-
-
 }

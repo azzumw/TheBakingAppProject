@@ -3,4 +3,8 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="dummyRecipeName">Dummy Recipe</string>
+    <string name="pin">Pin to Widget</string>
+    <string name="unpin">Unpin from Widget</string>
+    <string name="JSON_KEY">json_key</string>
+    <string name="RECIPE_ID">recipe_id</string>
 </resources>

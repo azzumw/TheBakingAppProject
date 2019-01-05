@@ -15,7 +15,6 @@ import java.util.List;
 
 public class MainRecipeCustomAdapter extends RecyclerView.Adapter<MainRecipeCustomAdapter.MainRecipeViewHolder> {
 
-    private int number;
     private List<Recipe> recipeList;
 
     private final MainRecipeCustomOnClickHandler mainRecipeCustomOnClickHandler;

@@ -21,9 +21,8 @@ public class WidgetUpdateService extends IntentService {
     protected void onHandleIntent(@Nullable Intent intent) {
         if (intent != null) {
             final String action = intent.getAction();
-            if (ACTION_UPDATE_APP_WIDGETS.equals(action)) {
-                handleActionUpdateAppWidgets();
-            }else if(ACTION_UPDATE_LIST_VIEW.equals(action)){
+
+            if(ACTION_UPDATE_LIST_VIEW.equals(action)){
                 handleActionUpdateListView();
             }
         }
@@ -34,27 +33,24 @@ public class WidgetUpdateService extends IntentService {
         //get the recipe data
 
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, RecipeWidgetProvider.class));
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, WidgetProvider.class));
 
-        RecipeWidgetProvider.updateAllAppWidget(this, appWidgetManager,appWidgetIds);
+        WidgetProvider.updateAllAppWidget(this, appWidgetManager,appWidgetIds);
 
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widgetListView);
     }
 
     private void handleActionUpdateAppWidgets(){
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, RecipeWidgetProvider.class));
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, WidgetProvider.class));
 
-        RecipeWidgetProvider.updateAllAppWidget(this, appWidgetManager,appWidgetIds);
+        WidgetProvider.updateAllAppWidget(this, appWidgetManager,appWidgetIds);
     }
 
-    public static void startActionUpdateAppWidgets(Context context, boolean forListView) {
+    public static void startActionUpdateAppWidgets(Context context) {
         Intent intent = new Intent(context, WidgetUpdateService.class);
-        if(forListView){
-            intent.setAction(ACTION_UPDATE_LIST_VIEW);
-        }else {
-            intent.setAction(ACTION_UPDATE_APP_WIDGETS);
-        }
+
+        intent.setAction(ACTION_UPDATE_LIST_VIEW);
 
         context.startService(intent);
     }

@@ -3,15 +3,20 @@ package com.example.macintosh.thebakingappproject;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.example.macintosh.thebakingappproject.Models.Ingredient;
 import com.example.macintosh.thebakingappproject.Models.Recipe;
 import com.example.macintosh.thebakingappproject.Network.GetDataService;
 import com.example.macintosh.thebakingappproject.Network.RetrofitClientInstance;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -19,24 +24,23 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ListViewWidgetService extends RemoteViewsService {
-    List<Recipe> recipeList;
+
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
 
-        return new AppWidgetListView (RecipeDataBase.getRecipeFromNetwork(),this.getApplicationContext());
+        return new AppWidgetListView (this.getApplicationContext());
     }
 }
 
 
 class AppWidgetListView implements RemoteViewsService.RemoteViewsFactory{
 
-    private List<Recipe> recipeList;
+    private List<Ingredient> ingredientsList;
     private Context context;
 
-    public AppWidgetListView(List<Recipe> dataList, Context context) {
-        this.recipeList = dataList;
-        this.context = context;
+    public AppWidgetListView(Context context) {
 
+        this.context = context;
     }
 
     @Override
@@ -45,7 +49,13 @@ class AppWidgetListView implements RemoteViewsService.RemoteViewsFactory{
 
     @Override
     public void onDataSetChanged() {
-
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String json = preferences.getString(context.getString(R.string.JSON_KEY),"no preference");
+        if(preferences.contains(context.getString(R.string.JSON_KEY))){
+            ingredientsList = getIngredientFromJson(json);
+        }else {
+            ingredientsList = new ArrayList<>();
+        }
     }
 
     @Override
@@ -55,18 +65,16 @@ class AppWidgetListView implements RemoteViewsService.RemoteViewsFactory{
 
     @Override
     public int getCount() {
-        return recipeList.size();
+        return ingredientsList.size();
     }
 
     @Override
     public RemoteViews getViewAt(int position) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.list_item_widget);
 
-        views.setTextViewText(R.id.recipeNameTv, recipeList.get(position).getName());
-
-        Intent fillInIntent = new Intent();
-        fillInIntent.putExtra("RecipeName",recipeList.get(position).getName());
-        views.setOnClickFillInIntent(R.id.parentView, fillInIntent);
+        views.setTextViewText(R.id.ingredientNameTv, ingredientsList.get(position).getIngredient());
+        views.setTextViewText(R.id.ingredientQtyTv,String.valueOf(ingredientsList.get(position).getQuantity()));
+        views.setTextViewText(R.id.ingredientMeasureTv,ingredientsList.get(position).getMeasure());
 
         return views;
 
@@ -90,5 +98,12 @@ class AppWidgetListView implements RemoteViewsService.RemoteViewsFactory{
     @Override
     public boolean hasStableIds() {
         return true;
+    }
+
+    private List<Ingredient> getIngredientFromJson(String json){
+        Gson gson = new Gson();
+        Recipe recipe = gson.fromJson(json,Recipe.class);
+        return recipe.getIngredients();
+
     }
 }

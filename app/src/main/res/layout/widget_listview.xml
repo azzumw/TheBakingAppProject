@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:divider="#f0f0f0"
         android:dividerHeight="1dp"
+        tool:listitem="@layout/list_item_widget"
         android:id="@+id/widgetListView">
 
     </ListView>
