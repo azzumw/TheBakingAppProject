@@ -3,18 +3,27 @@ package com.example.macintosh.thebakingappproject;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.example.macintosh.thebakingappproject.Models.Recipe;
+import com.example.macintosh.thebakingappproject.Network.GetDataService;
+import com.example.macintosh.thebakingappproject.Network.RetrofitClientInstance;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ListViewWidgetService extends RemoteViewsService {
+    List<Recipe> recipeList;
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        return new AppWidgetListView (this.getApplicationContext(), );;
+
+        return new AppWidgetListView (RecipeDataBase.getRecipeFromNetwork(),this.getApplicationContext());
     }
 }
 
@@ -27,11 +36,11 @@ class AppWidgetListView implements RemoteViewsService.RemoteViewsFactory{
     public AppWidgetListView(List<Recipe> dataList, Context context) {
         this.recipeList = dataList;
         this.context = context;
+
     }
 
     @Override
     public void onCreate() {
-
     }
 
     @Override

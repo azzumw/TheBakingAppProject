@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +18,11 @@ import android.widget.ListView;
 
 import com.example.macintosh.thebakingappproject.Models.Recipe;
 
-public class RecipeDetailMasterListFragment extends Fragment {
+public class RecipeDetailMasterListFragment extends Fragment{
 
     private Recipe recipe;
     private LinearLayoutManager linearLayoutManager;
-
+//    private RecyclerView recyclerView;
 
     OnImageClickListener mCallBack;
 
@@ -49,10 +50,6 @@ public class RecipeDetailMasterListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_master_list,container,false);
 
-//        Intent intent = getActivity().getIntent();
-
-
-//        Bundle bundle = getArguments();
 
         Bundle bundle = getActivity().getIntent().getParcelableExtra("rBundle");
 
@@ -62,28 +59,27 @@ public class RecipeDetailMasterListFragment extends Fragment {
         Log.e(getClass().getSimpleName(),recipe.getName());
 
 
-//        RecyclerView recyclerView = rootView.findViewById(R.id.masterListRecyclerView);
-        ListView listView = rootView.findViewById(R.id.masterListView);
+        RecyclerView recyclerView = rootView.findViewById(R.id.masterListRecyclerView);
+//        ListView listView = rootView.findViewById(R.id.masterListView);
 
-//        linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager = new LinearLayoutManager(getContext());
 
-//        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setLayoutManager(linearLayoutManager);
         //adapter
-        RecipeDetailMasterListAdapter adapter = new RecipeDetailMasterListAdapter(recipe.getSteps().size(),getContext());
+//        RecipeDetailMasterListAdapter adapter = new RecipeDetailMasterListAdapter(recipe.getSteps().size(),getContext());
+        RecipeDetailMasterListRecyclerAdapter recyclerAdapter = new RecipeDetailMasterListRecyclerAdapter(recipe.getSteps().size(),mCallBack);
 
-        listView.setAdapter(adapter);
+//        listView.setAdapter(adapter);
+        recyclerView.setAdapter(recyclerAdapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mCallBack.onItemClicked(position,recipe);           //position: 1
-            }
-        });
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                mCallBack.onItemClicked(position,recipe);           //position: 1
+//            }
+//        });
         return rootView;
     }
-
-
-
 
 
 }

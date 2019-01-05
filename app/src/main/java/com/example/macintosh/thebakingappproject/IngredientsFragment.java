@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,8 @@ import java.util.ArrayList;
 
 public class IngredientsFragment extends Fragment {
 
+
+
     public IngredientsFragment() {
 
     }
@@ -26,9 +30,10 @@ public class IngredientsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_ingredients_list,container,false);
 
+        RecyclerView recyclerView = rootview.findViewById(R.id.ingredientsRecyclerView);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 
-        ListView listView = rootview.findViewById(R.id.ingredientsListView);
-
+        recyclerView.setLayoutManager(linearLayoutManager);
 
         Bundle bundle = getArguments();
 
@@ -39,9 +44,9 @@ public class IngredientsFragment extends Fragment {
 
             ArrayList<Ingredient> ingredients = bundle.getParcelableArrayList("ingredients");
 
-            IngredientsAdapter arrayAdapter = new IngredientsAdapter(getContext(),ingredients);
+            IngredientsRecyclerAdapter ingredientsRecyclerAdapter = new IngredientsRecyclerAdapter(ingredients);
 
-            listView.setAdapter(arrayAdapter);
+            recyclerView.setAdapter(ingredientsRecyclerAdapter);
         }
 
         return rootview;

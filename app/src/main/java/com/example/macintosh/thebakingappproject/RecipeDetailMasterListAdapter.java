@@ -62,6 +62,7 @@ public class RecipeDetailMasterListAdapter extends BaseAdapter{
         return convertView;
     }
 
+
     private void fillArrayList(int size){
         stringList.add("Ingredients");
         for(int i=0; i < size-1; i++){

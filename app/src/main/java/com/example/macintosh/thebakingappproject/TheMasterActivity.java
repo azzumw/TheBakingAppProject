@@ -74,7 +74,7 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
     }
 
     @Override
-    public void onItemClicked(int pos, Recipe recipe) {
+    public void onItemClicked(int pos) {
         Bundle bundle = new Bundle();
 
         if (pos == 0) {
@@ -95,6 +95,11 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
             //TODO 7: pass bundle to Step Fragment
             replaceStepsDetailFragment(pos - 1);
         }
+    }
+
+    @Override
+    public void onItemClicked(int pos, Recipe recipe) {
+
     }
 
     private void replaceStepsDetailFragment(int pos) {

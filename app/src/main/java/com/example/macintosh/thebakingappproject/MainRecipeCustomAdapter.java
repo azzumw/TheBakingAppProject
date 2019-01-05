@@ -21,7 +21,7 @@ public class MainRecipeCustomAdapter extends RecyclerView.Adapter<MainRecipeCust
     private final MainRecipeCustomOnClickHandler mainRecipeCustomOnClickHandler;
 
     public interface MainRecipeCustomOnClickHandler{
-        void onClickHandler(Recipe recipe);
+        void onClickHandler( Recipe recipe);
     }
 
     public MainRecipeCustomAdapter(List<Recipe> recipes,MainRecipeCustomOnClickHandler mainRecipeCustomOnClickHandler){
@@ -45,6 +45,8 @@ public class MainRecipeCustomAdapter extends RecyclerView.Adapter<MainRecipeCust
 
         mainRecipeViewHolder.recipeTitle.setText(recipeList.get(i).getName());
     }
+
+
 
     @Override
     public int getItemCount() {

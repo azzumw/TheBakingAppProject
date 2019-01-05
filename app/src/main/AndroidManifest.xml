@@ -31,8 +31,8 @@
         <service android:name=".WidgetUpdateService"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.example.macintosh.simplewidget.widgetservice.update_app_widget"/>
-                <action android:name="com.example.macintosh.simplewidget.widgetservice.update_app_widget_list"/>
+                <action android:name="com.example.macintosh.thebakingappproject.widgetupdateservice.update_app_widget"/>
+                <action android:name="com.example.macintosh.thebakingappproject.widgetupdateservice.update_app_widget_list"/>
             </intent-filter>
         </service>
 

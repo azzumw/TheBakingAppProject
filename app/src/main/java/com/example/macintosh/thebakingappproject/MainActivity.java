@@ -12,7 +12,6 @@ import com.example.macintosh.thebakingappproject.Models.Recipe;
 import com.example.macintosh.thebakingappproject.Network.GetDataService;
 import com.example.macintosh.thebakingappproject.Network.RetrofitClientInstance;
 
-import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -24,7 +23,8 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
     private static final String LOG_TAG = "MAINACTIVITY";
     private RecyclerView mRecyclerView;
     private MainRecipeCustomAdapter mainRecipeCustomAdapter;
-    private LinearLayoutManager linearLayoutManager;
+    private LinearLayoutManager layoutManager
+            ;
 
     private static final int NUM = 10;
     @Override
@@ -37,11 +37,11 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
 
         if(isThisPhone){
             //phone
-            linearLayoutManager = new LinearLayoutManager(this);
+            layoutManager = new LinearLayoutManager(this);
 
         }else{
             //tablet
-            linearLayoutManager = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
+            layoutManager = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
             int spanCount = 60; // 3 columns
             mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount));
         }
@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
 
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<List<Recipe>> call = service.getAllRecipes();
+
 
         call.enqueue(new Callback<List<Recipe>>() {
             @Override
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
                 Log.e(LOG_TAG,"ERROR:"+ t.toString());
             }
         });
+
         
     }
 
@@ -70,7 +72,7 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
 
         mainRecipeCustomAdapter = new MainRecipeCustomAdapter(recipes,this);
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mainRecipeCustomAdapter);
     }
 
