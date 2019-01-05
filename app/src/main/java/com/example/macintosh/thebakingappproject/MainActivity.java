@@ -7,6 +7,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.macintosh.thebakingappproject.Models.Recipe;
 import com.example.macintosh.thebakingappproject.Network.GetDataService;
@@ -23,14 +25,16 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
     private static final String LOG_TAG = "MAINACTIVITY";
     private RecyclerView mRecyclerView;
     private MainRecipeCustomAdapter mainRecipeCustomAdapter;
-    private LinearLayoutManager layoutManager
-            ;
+    private LinearLayoutManager layoutManager;
+    private TextView emptyTv;
 
     private static final int NUM = 10;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        emptyTv = findViewById(R.id.empty_view);
+
         mRecyclerView = findViewById(R.id.mainRecipeRV);
         boolean isThisPhone = getResources().getBoolean(R.bool.isPhone);
 
@@ -61,6 +65,8 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
             @Override
             public void onFailure(Call<List<Recipe>> call, Throwable t) {
                 Log.e(LOG_TAG,"ERROR:"+ t.toString());
+                mRecyclerView.setVisibility(View.GONE);
+                emptyTv.setVisibility(View.VISIBLE);
             }
         });
 
@@ -74,6 +80,7 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mainRecipeCustomAdapter);
+
     }
 
     @Override

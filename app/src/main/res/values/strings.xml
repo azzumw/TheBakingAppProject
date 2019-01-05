@@ -7,4 +7,5 @@
     <string name="unpin">Unpin from Widget</string>
     <string name="JSON_KEY">json_key</string>
     <string name="RECIPE_ID">recipe_id</string>
+    <string name="no_internet_error">No Internet! Please try again later.</string>
 </resources>
