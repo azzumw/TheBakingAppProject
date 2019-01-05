@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 
 public class WidgetUpdateService extends IntentService {
 
-    public final static String ACTION_UPDATE_APP_WIDGETS = "com.example.macintosh.thebakingappproject.widgetupdateservice.update_app_widget";
     public static final String ACTION_UPDATE_LIST_VIEW = "com.example.macintosh.thebakingappproject.widgetupdateservice.update_app_widget_list";
 
     public WidgetUpdateService() {
@@ -40,12 +39,6 @@ public class WidgetUpdateService extends IntentService {
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widgetListView);
     }
 
-    private void handleActionUpdateAppWidgets(){
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, WidgetProvider.class));
-
-        WidgetProvider.updateAllAppWidget(this, appWidgetManager,appWidgetIds);
-    }
 
     public static void startActionUpdateAppWidgets(Context context) {
         Intent intent = new Intent(context, WidgetUpdateService.class);

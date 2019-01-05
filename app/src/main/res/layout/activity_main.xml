@@ -23,11 +23,21 @@
 
    <TextView
        android:id="@+id/empty_view"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
        android:layout_below="@id/empty_img_view"
-       android:gravity="center"
+       android:layout_centerInParent="true"
        android:visibility="gone"
        android:text="@string/no_internet_error" />
+
+   <Button
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_below="@id/empty_view"
+       android:layout_centerInParent="true"
+       android:id="@+id/retryBtn"
+       android:visibility="gone"
+       android:onClick="retyconnection"
+       android:text="@string/retry"/>
 
 </RelativeLayout>
