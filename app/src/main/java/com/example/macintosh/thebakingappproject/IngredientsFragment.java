@@ -41,7 +41,7 @@ public class IngredientsFragment extends Fragment {
         if(bundle!=null){
             ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle("Ingredients");
 
-            ArrayList<Ingredient> ingredients = bundle.getParcelableArrayList("ingredients");
+            ArrayList<Ingredient> ingredients = bundle.getParcelableArrayList(getString(R.string.INGREDIENT_ARRAY_BUNDLE_KEY));
 
             IngredientsRecyclerAdapter ingredientsRecyclerAdapter = new IngredientsRecyclerAdapter(ingredients);
 

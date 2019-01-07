@@ -38,22 +38,21 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
 
         Intent intent = getIntent();
         Bundle bundle  = intent.getParcelableExtra("rBundle");
-        recipe = bundle.getParcelable("bundle");
+        recipe = bundle.getParcelable(getString(R.string.RECIPE_BUNDLE_KEY));
         stepArrayList = (ArrayList<Step>) recipe.getSteps();
 
         fragmentManager = getSupportFragmentManager();
-
 
         if(findViewById(R.id.tab_root_linear_layout)!= null){
             mTwoPane = true;
             if(savedInstanceState==null){
                 Bundle ingredBundle = new Bundle();
                 ArrayList<Ingredient> ingredients = (ArrayList<Ingredient>) recipe.getIngredients();
-                ingredBundle.putString("Title",recipe.getName());
-                ingredBundle.putParcelableArrayList("ingredients",ingredients);
+                ingredBundle.putString(getString(R.string.RECIPE_TITLE_KEY),recipe.getName());
+                ingredBundle.putParcelableArrayList(getString(R.string.INGREDIENT_ARRAY_BUNDLE_KEY),ingredients);
                 IngredientsFragment ingredientsFragment = new IngredientsFragment();
                 ingredientsFragment.setArguments(ingredBundle);
-                fragmentManager.beginTransaction().add(R.id.fragmentContainerFLMasterAct,ingredientsFragment,"ingredientsFragmentTag").commit();
+                fragmentManager.beginTransaction().add(R.id.fragmentContainerFLMasterAct,ingredientsFragment,getString(R.string.INGREDIENT_FRAGMENT_TAG)).commit();
             }
 
 
@@ -63,14 +62,14 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
             if (savedInstanceState == null) {
                 RecipeDetailMasterListFragment recipeDetailMasterListFragment = new RecipeDetailMasterListFragment();
                 recipeDetailMasterListFragment.setArguments(bundle);
-                fragmentManager.beginTransaction().add(R.id.fragmentContainerFLMasterAct,recipeDetailMasterListFragment,"recipeDetailMasterListFragmentTag").commit();
+                fragmentManager.beginTransaction().add(R.id.fragmentContainerFLMasterAct,recipeDetailMasterListFragment,getString(R.string.RECIPE_DETAIL_MASTERLIST_FRAG_TAG)).commit();
             }
         }
 
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
+
+
 
 
     @Override
@@ -97,10 +96,9 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
             return true;
         }
         if (item.getItemId() == R.id.pin_to_widget_id){
-            //TODO: do something
-            //check if this recipe exists in the sharedPref
-            //if exists, then set title to 'Unpin' and remove/replace recipe object.
-            //else, set title to 'pin' and add recipe object to sharedpref
+            /*check if this recipe exists in the sharedPref
+            if exists, then set title to 'Unpin' and remove/replace recipe object.
+            else, set title to 'pin' and add recipe object to sharedpref*/
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor editor = preferences.edit();
             int recipIDFromPref = preferences.getInt(getString(R.string.RECIPE_ID),-1);
@@ -108,7 +106,7 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
                 menuOptionTitle = getString(R.string.pin);
                 editor.remove(getString(R.string.JSON_KEY)).apply();
                 editor.remove(getString(R.string.RECIPE_ID)).apply();
-                Toast.makeText(this, "Recipe UNPINNED", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.RECIPE_UNPINNED_TOAST, Toast.LENGTH_SHORT).show();
             }else{
 
                 menuOptionTitle = getString(R.string.unpin);
@@ -116,7 +114,7 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
                 editor.putString(getString(R.string.JSON_KEY),json);
                 editor.putInt(getString(R.string.RECIPE_ID),recipe.getId());
                 editor.apply();
-                Toast.makeText(this, "Recipe Pinned", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.RECIPE_PINNED_TOAST, Toast.LENGTH_SHORT).show();
             }
             item.setTitle(menuOptionTitle);
 
@@ -135,11 +133,11 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
         return gson.toJson(recipe);
     }
 
-    private Recipe getRecipeFromJson(String json){
-        Gson gson = new Gson();
-        Recipe recipeFromJson = gson.fromJson(json,Recipe.class);
-        return recipeFromJson;
-    }
+//    private Recipe getRecipeFromJson(String json){
+//        Gson gson = new Gson();
+//        Recipe recipeFromJson = gson.fromJson(json,Recipe.class);
+//        return recipeFromJson;
+//    }
 
     @Override
     public void onItemClicked(int pos) {
@@ -148,16 +146,14 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
         if (pos == 0) {
             ArrayList<Ingredient> ingredients = (ArrayList<Ingredient>) recipe.getIngredients();
             bundle.putString("Title",recipe.getName());
-            bundle.putParcelableArrayList("ingredients",ingredients);
+            bundle.putParcelableArrayList(getString(R.string.INGREDIENT_ARRAY_BUNDLE_KEY),ingredients);
             IngredientsFragment ingredientsFragment = new IngredientsFragment();
             ingredientsFragment.setArguments(bundle);
             if(mTwoPane){
-                fragmentManager.beginTransaction().replace(R.id.fragmentContainerFLMasterAct,ingredientsFragment,"ingredientsFragmentTag").commit();
+                fragmentManager.beginTransaction().replace(R.id.fragmentContainerFLMasterAct,ingredientsFragment,getString(R.string.INGREDIENT_FRAGMENT_TAG)).commit();
             }else {
-                fragmentManager.beginTransaction().replace(R.id.fragmentContainerFLMasterAct,ingredientsFragment,"ingredientsFragmentTag").addToBackStack(null).commit();
+                fragmentManager.beginTransaction().replace(R.id.fragmentContainerFLMasterAct,ingredientsFragment,getString(R.string.INGREDIENT_FRAGMENT_TAG)).addToBackStack(null).commit();
             }
-
-
         }
         else{
             replaceStepsDetailFragment(pos - 1);
@@ -167,18 +163,18 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
 
     private void replaceStepsDetailFragment(int pos) {
         Bundle bundle = new Bundle();
-        bundle.putInt("stepArraySize",stepArrayList.size());
-        bundle.putInt("currentposition",pos);
+        bundle.putInt(getString(R.string.STEP_ARRAY_SIZE_KEY),stepArrayList.size());
+        bundle.putInt(getString(R.string.CURRENT_POSITON_KEY),pos);
         //pass the next step
-        bundle.putParcelable("theNextStep",stepArrayList.get(pos));
+        bundle.putParcelable(getString(R.string.NEXT_STEP_KEY),stepArrayList.get(pos));
         StepsDetailFragment stepsDetailFragment = new StepsDetailFragment();
         stepsDetailFragment.setArguments(bundle);
 
         fragmentManager.popBackStack();
         if(mTwoPane){
-            fragmentManager.beginTransaction().replace(R.id.fragmentContainerFLMasterAct,stepsDetailFragment,"stepsDetailFragmentTag").commit();
+            fragmentManager.beginTransaction().replace(R.id.fragmentContainerFLMasterAct,stepsDetailFragment,getString(R.string.STEP_DETAIL_FRAG_TAG)).commit();
         }else {
-            fragmentManager.beginTransaction().replace(R.id.fragmentContainerFLMasterAct,stepsDetailFragment,"stepsDetailFragmentTag").addToBackStack(null).commit();
+            fragmentManager.beginTransaction().replace(R.id.fragmentContainerFLMasterAct,stepsDetailFragment,getString(R.string.STEP_DETAIL_FRAG_TAG)).addToBackStack(null).commit();
         }
 
     }
@@ -192,7 +188,6 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
     public void onBackPressed(int previousPosition) {
         replaceStepsDetailFragment(previousPosition);
     }
-
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {

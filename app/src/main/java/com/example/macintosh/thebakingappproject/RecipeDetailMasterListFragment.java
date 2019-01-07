@@ -46,7 +46,6 @@ public class RecipeDetailMasterListFragment extends Fragment{
 
         recipe = bundle.getParcelable("bundle");
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(recipe.getName());
-        Log.e(getClass().getSimpleName(),recipe.getName());
 
         RecyclerView recyclerView = rootView.findViewById(R.id.masterListRecyclerView);
 
@@ -54,7 +53,7 @@ public class RecipeDetailMasterListFragment extends Fragment{
 
         recyclerView.setLayoutManager(linearLayoutManager);
         //adapter
-        RecipeDetailMasterListRecyclerAdapter recyclerAdapter = new RecipeDetailMasterListRecyclerAdapter(recipe.getSteps().size(),mCallBack);
+        RecipeDetailMasterListRecyclerAdapter recyclerAdapter = new RecipeDetailMasterListRecyclerAdapter(getContext(),recipe.getSteps().size(),mCallBack);
 
         recyclerView.setAdapter(recyclerAdapter);
 

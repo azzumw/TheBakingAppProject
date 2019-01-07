@@ -14,10 +14,10 @@ public class RecipeDetailMasterListRecyclerAdapter extends RecyclerView.Adapter<
     private OnImageClickListener onImageClickListener;
 
     private List<String> stringList;
-
-    public RecipeDetailMasterListRecyclerAdapter(int size, OnImageClickListener onImageClickListener) {
+    Context context;
+    public RecipeDetailMasterListRecyclerAdapter(Context context,int size, OnImageClickListener onImageClickListener) {
         this.onImageClickListener = onImageClickListener;
-
+        this.context = context;
         stringList = new ArrayList<>();
         size++;
         fillArrayList(size);
@@ -47,10 +47,10 @@ public class RecipeDetailMasterListRecyclerAdapter extends RecyclerView.Adapter<
     }
 
     private void fillArrayList(int size){
-        stringList.add("Ingredients");
+        stringList.add(context.getString(R.string.INGREDIENTS_TEXT));
         for(int i=0; i < size-1; i++){
             if(i == 0){
-                stringList.add("Recipe Introduction");
+                stringList.add(context.getString(R.string.RECIPE_INTRODUCTION_TEXT));
                 continue;
             }
             stringList.add("Step " + i);

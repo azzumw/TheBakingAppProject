@@ -28,7 +28,6 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity  implements MainRecipeCustomAdapter.MainRecipeCustomOnClickHandler {
 
-    private static final String LOG_TAG = "MAINACTIVITY";
     private RecyclerView mRecyclerView;
     private MainRecipeCustomAdapter mainRecipeCustomAdapter;
     private LinearLayoutManager layoutManager;
@@ -82,9 +81,8 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
 
         Bundle bundle = new Bundle();
         Intent intent = new Intent(this,TheMasterActivity.class);
-        bundle.putParcelable("bundle", recipe);
+        bundle.putParcelable(getString(R.string.RECIPE_BUNDLE_KEY), recipe);
         intent.putExtra("rBundle",bundle);
-//        intent.putExtra("recipe",recipe);
         startActivity(intent);
     }
 
@@ -103,18 +101,17 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
 
             @Override
             public void onFailure(Call<List<Recipe>> call, Throwable t) {
-                Log.e(LOG_TAG,"ERROR:"+ t.toString());
+
                 onConnectionFailure();
             }
         });
     }
 
     public void retyconnection(View view) {
+        callRetroFit();
 //        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 //        NetworkInfo wifiInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 //        NetworkInfo mobileInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        callRetroFit();
-        Toast.makeText(this, "clickd", Toast.LENGTH_SHORT).show();
 //        if ((wifiInfo != null && wifiInfo.isConnected()) || (mobileInfo != null && mobileInfo.isConnected())) {
 ////            return true;
 ////        }else{

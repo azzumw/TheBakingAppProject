@@ -9,4 +9,19 @@
     <string name="RECIPE_ID">recipe_id</string>
     <string name="no_internet_error">No Internet! Please try again later.</string>
     <string name="retry">retry</string>
+    <string name="RECIPE_DETAIL_MASTERLIST_FRAG_TAG">recipeDetailMasterListFragmentTag</string>
+    <string name="INGREDIENT_FRAGMENT_TAG">ingredientsFragmentTag</string>
+    <string name="STEP_DETAIL_FRAG_TAG">stepsDetailFragmentTag</string>
+    <string name="RECIPE_UNPINNED_TOAST">Recipe Unpinned</string>
+    <string name="RECIPE_PINNED_TOAST">Recipe Pinned</string>
+    <string name="RECIPE_TITLE_KEY">Title</string>
+    <string name="STEP_ARRAY_SIZE_KEY">stepArraySize</string>
+    <string name="CURRENT_POSITON_KEY">currentposition</string>
+    <string name="NEXT_STEP_KEY">theNextStep</string>
+    <string name="NEXT_BTN_TEXT">Next</string>
+    <string name="BACK_BTN_TEXT">Back</string>
+    <string name="RECIPE_BUNDLE_KEY">bundle</string>
+    <string name="INGREDIENT_ARRAY_BUNDLE_KEY">ingredients</string>
+    <string name="INGREDIENTS_TEXT">Ingredients</string>
+    <string name="RECIPE_INTRODUCTION_TEXT">Recipe Introduction</string>
 </resources>

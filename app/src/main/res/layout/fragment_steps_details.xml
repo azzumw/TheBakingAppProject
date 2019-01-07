@@ -1,38 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:id="@+id/linear"
-    android:orientation="vertical">
-
-    <com.google.android.exoplayer2.ui.PlayerView
+<!--<ScrollView -->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_width="match_parent">-->
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_height="380dp"
-        android:background="#000"
-        android:layout_alignParentTop="true"
-        android:id="@+id/simpleExoPlayerView">
+        android:id="@+id/linear"
+        android:orientation="vertical">
 
-    </com.google.android.exoplayer2.ui.PlayerView>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="380dp"
+            android:id="@+id/content_container_frame">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_below="@+id/simpleExoPlayerView"
-        android:textSize="18sp"
-        android:layout_margin="8dp"
-        android:hint="hello"
-        android:id="@+id/textView2"/>
+            <com.google.android.exoplayer2.ui.PlayerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#000"
+                android:layout_alignParentTop="true"
+                android:id="@+id/simpleExoPlayerView">
+            </com.google.android.exoplayer2.ui.PlayerView>
 
-    <!--Buttons-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/childLinearLayout"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:id="@+id/empty_img_view"/>
 
-    </LinearLayout>
+        </FrameLayout>
 
-</RelativeLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@+id/content_container_frame"
+            android:textSize="18sp"
+            android:layout_margin="8dp"
+            android:hint="hello"
+            android:id="@+id/textView2"/>
+
+        <!--Buttons-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/childLinearLayout"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true">
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+<!--</ScrollView>-->
 
 

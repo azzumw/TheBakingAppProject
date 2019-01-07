@@ -1,6 +1,7 @@
 package com.example.macintosh.thebakingappproject;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,12 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.macintosh.thebakingappproject.Models.Step;
 import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
@@ -32,9 +35,12 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 public class StepsDetailFragment extends Fragment {
 
+    private ImageView emtpyImg;
     private TextView stepInstructionTv;
     private int currentPosition;
     private int nextPosition;
@@ -73,31 +79,44 @@ public class StepsDetailFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if(step.getVideoURL().length()>0){
+
             initialisePlayer();
+
         }else{
             simpleExoPlayerView.setVisibility(View.GONE);
-        }
+            emtpyImg.setVisibility(View.VISIBLE);
 
+            //set the thumbnail in the container
+            if(step.getThumbnailURL().length()>0){
+                Picasso.with(getContext())
+                        .load(step.getThumbnailURL())
+                        .placeholder(R.drawable.cupcakeic)
+                        .error(R.drawable.cupcakeic)
+                        .into(emtpyImg);
+            }else {
+                emtpyImg.setImageResource(R.drawable.cupcakeic);
+            }
+        }
     }
 
     private void initialisePlayer(){
 
-            Uri uri = Uri.parse(step.getVideoURL());
+        Uri uri = Uri.parse(step.getVideoURL());
 
-            //create exoplayer object
-            BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+        //create exoplayer object
+        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
 
-            TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
-            TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
-            player = ExoPlayerFactory.newSimpleInstance(getContext(),trackSelector);
+        TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
+        TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
+        player = ExoPlayerFactory.newSimpleInstance(getContext(),trackSelector);
 
-            MediaSource mediaSource = buildMediaSource(uri);
-            player.prepare(mediaSource);
-            //attach the player to the view
-            simpleExoPlayerView.setPlayer(player);
-            player.seekTo(currentWindow,playBackPosition);
-            player.setPlayWhenReady(autoPlay);
-            simpleExoPlayerView.setVisibility(View.VISIBLE);
+        MediaSource mediaSource = buildMediaSource(uri);
+        player.prepare(mediaSource);
+        //attach the player to the view
+        simpleExoPlayerView.setPlayer(player);
+        player.seekTo(currentWindow,playBackPosition);
+        player.setPlayWhenReady(autoPlay);
+        simpleExoPlayerView.setVisibility(View.VISIBLE);
     }
 
     private MediaSource buildMediaSource(Uri uri) {
@@ -107,86 +126,99 @@ public class StepsDetailFragment extends Fragment {
         String userAgent = Util.getUserAgent(getContext(), getActivity().getApplicationContext().getApplicationInfo().packageName);
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getContext(), userAgent);
 
-//        ExtractorMediaSource audioSource = new ExtractorMediaSource(uri, dataSourceFactory, extractorSourceFactory, null, null);
         // this return a single mediaSource object. i.e. no next, previous buttons to play next/prev media file
         return new ExtractorMediaSource(uri, dataSourceFactory, extractorSourceFactory, null, null);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ){
+
+            getActivity().getActionBar().hide();
+        }
+
+
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View rootview = inflater.inflate(R.layout.fragment_steps_details,container,false);
 
         stepInstructionTv = rootview.findViewById(R.id.textView2);
         simpleExoPlayerView = rootview.findViewById(R.id.simpleExoPlayerView);
+        emtpyImg = rootview.findViewById(R.id.empty_img_view);
 
         Bundle bundle = getArguments();
         if(bundle!= null){
 
-                STEP_ARRAY_SIZE = bundle.getInt("stepArraySize");
-                step = bundle.getParcelable("theNextStep");
-                currentPosition = bundle.getInt("currentposition");  // 5
-                previousPosition = currentPosition-1;
-                nextPosition = currentPosition+1; //6
+            STEP_ARRAY_SIZE = bundle.getInt(getString(R.string.STEP_ARRAY_SIZE_KEY));
+            step = bundle.getParcelable(getString(R.string.NEXT_STEP_KEY));
+            currentPosition = bundle.getInt(getString(R.string.CURRENT_POSITON_KEY));
+            previousPosition = currentPosition-1;
+            nextPosition = currentPosition+1;
 
-                ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle("Step " + step.getId());
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle("Step " + step.getId());
 
-                stepInstructionTv.setText(step.getDescription());
+            stepInstructionTv.setText(step.getDescription());
 
         }
 
         if(savedInstanceState!= null){
-            Log.e("ON_CREATE","saveinstance");
             currentWindow = savedInstanceState.getInt(CURRENT_WINDOW_INDEX);
             playBackPosition = savedInstanceState.getLong(PLAYBACK_POSITION);
             autoPlay = savedInstanceState.getBoolean(AUTOPLAY);
-
         }
-
-
 
 
         Button backBtn = showBackButton(rootview);
         Button nextBtn = showNextButton(rootview);
 
-            nextBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                    if(currentPosition< STEP_ARRAY_SIZE-1){
-                        releasePlayer();
+                if(currentPosition< STEP_ARRAY_SIZE-1){
+                    releasePlayer();
 //                        MyExoPlayer.clearPlayerResources();
 
-                        showNextStep(nextPosition); //6
-                    }
-                    else{
-                        Toast.makeText(getContext(),"End of List",Toast.LENGTH_SHORT).show();
-                    }
-
+                    showNextStep(nextPosition);
                 }
-            });
+                else{
+                    Toast.makeText(getContext(),"End of List",Toast.LENGTH_SHORT).show();
+                }
 
-            backBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(currentPosition>0){
-                        releasePlayer();
+            }
+        });
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(currentPosition>0){
+                    releasePlayer();
 //                        MyExoPlayer.clearPlayerResources();
-                        showPreviousStep(previousPosition);
-                    }else{
-                        Toast.makeText(getContext(),"Start of list",Toast.LENGTH_SHORT).show();
-                    }
+                    showPreviousStep(previousPosition);
+                }else{
+                    Toast.makeText(getContext(),"Start of list",Toast.LENGTH_SHORT).show();
                 }
-            });
-
-
+            }
+        });
 
         return rootview;
-
     }
 
+
+
     private void showNextStep(int nextPosition){
-        onImageClickListener.onNextPressed(nextPosition); //6, 7
+        onImageClickListener.onNextPressed(nextPosition);
     }
 
     private void showPreviousStep(int previousPosition){
@@ -201,17 +233,17 @@ public class StepsDetailFragment extends Fragment {
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 1.0f
         );
-        btnTag.setText("Next");
+        btnTag.setText(R.string.NEXT_BTN_TEXT);
         btnTag.setLayoutParams(param);
         LinearLayout linearLayout= view.findViewById(R.id.childLinearLayout);
         linearLayout.addView(btnTag);
         return btnTag;
-
     }
+
     private Button showBackButton(View view){
         //set the properties for button
         Button btnTag = new Button(getContext());
-        btnTag.setText("Back");
+        btnTag.setText(R.string.BACK_BTN_TEXT);
 
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -222,15 +254,12 @@ public class StepsDetailFragment extends Fragment {
         LinearLayout linearLayout= view.findViewById(R.id.childLinearLayout);
         linearLayout.addView(btnTag);
         return btnTag;
-
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.e("ON_SAVE","before");
         if(player==null){
-            Log.e("ON_SAVE","ONSAVE");
             outState.putInt(CURRENT_WINDOW_INDEX,currentWindow);
             outState.putLong(PLAYBACK_POSITION,playBackPosition);
             outState.putBoolean(AUTOPLAY,autoPlay);
@@ -245,21 +274,50 @@ public class StepsDetailFragment extends Fragment {
             player.release();
             player = null;
         }
-
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.e("ON_PAUSE","ONPAUSE");
         releasePlayer();
     }
-
-
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-            autoPlay = true;
+        autoPlay = true;
+    }
+
+    private void showSystemUI() {
+        View decorView = getActivity().getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    }
+
+    private void hideSystemUI() {
+        // Enables regular immersive mode.
+        // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
+        // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        View decorView = getActivity().getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE
+                        // Set the content to appear under the system bars so that the
+                        // content doesn't resize when the system bars hide and show.
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        // Hide the nav bar and status bar
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
+        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            @Override
+            public void onSystemUiVisibilityChange(int visibility) {
+                if(visibility == 6){
+                    hideSystemUI();
+                }else showSystemUI();
+            }
+        });
     }
 }
