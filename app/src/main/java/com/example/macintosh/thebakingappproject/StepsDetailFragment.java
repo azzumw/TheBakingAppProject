@@ -46,6 +46,9 @@ public class StepsDetailFragment extends Fragment {
     private int nextPosition;
     private int previousPosition;
 
+    Button backBtn;
+    Button nextBtn;
+
     private int STEP_ARRAY_SIZE;
     private Step step;
 
@@ -133,18 +136,23 @@ public class StepsDetailFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.e("ON_CREATE","OnCreate");
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ){
-
-            getActivity().getActionBar().hide();
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            Log.e("ACTIVIYT CREATED","OOnACITIVUYTBCREATED");
+            hideSystemUI();
         }
+    }
 
-
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        Log.e("CONFIG","OnConfigurationChange");
+        autoPlay = true;
     }
 
     @Nullable
@@ -152,10 +160,14 @@ public class StepsDetailFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View rootview = inflater.inflate(R.layout.fragment_steps_details,container,false);
+        Log.e("OnCREATEVIEW","ON CREATE VIEW");
+
 
         stepInstructionTv = rootview.findViewById(R.id.textView2);
         simpleExoPlayerView = rootview.findViewById(R.id.simpleExoPlayerView);
         emtpyImg = rootview.findViewById(R.id.empty_img_view);
+        backBtn = rootview.findViewById(R.id.backbtn);
+        nextBtn = rootview.findViewById(R.id.nextbtn);
 
         Bundle bundle = getArguments();
         if(bundle!= null){
@@ -166,51 +178,55 @@ public class StepsDetailFragment extends Fragment {
             previousPosition = currentPosition-1;
             nextPosition = currentPosition+1;
 
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle("Step " + step.getId());
+            if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+                ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle("Step " + step.getId());
 
-            stepInstructionTv.setText(step.getDescription());
+                stepInstructionTv.setText(step.getDescription());
+            }
+
 
         }
 
         if(savedInstanceState!= null){
             currentWindow = savedInstanceState.getInt(CURRENT_WINDOW_INDEX);
             playBackPosition = savedInstanceState.getLong(PLAYBACK_POSITION);
-            autoPlay = savedInstanceState.getBoolean(AUTOPLAY);
+//            autoPlay = savedInstanceState.getBoolean(AUTOPLAY);
+        }
+
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            nextBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if(currentPosition< STEP_ARRAY_SIZE-1){
+                        releasePlayer();
+//                        MyExoPlayer.clearPlayerResources();
+
+                        showNextStep(nextPosition);
+                    }
+                    else{
+                        Toast.makeText(getContext(),"End of List",Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
+
+            backBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(currentPosition>0){
+                        releasePlayer();
+//                        MyExoPlayer.clearPlayerResources();
+                        showPreviousStep(previousPosition);
+                    }else{
+                        Toast.makeText(getContext(),"Start of list",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
 
 
-        Button backBtn = showBackButton(rootview);
-        Button nextBtn = showNextButton(rootview);
 
-        nextBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(currentPosition< STEP_ARRAY_SIZE-1){
-                    releasePlayer();
-//                        MyExoPlayer.clearPlayerResources();
-
-                    showNextStep(nextPosition);
-                }
-                else{
-                    Toast.makeText(getContext(),"End of List",Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
-
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(currentPosition>0){
-                    releasePlayer();
-//                        MyExoPlayer.clearPlayerResources();
-                    showPreviousStep(previousPosition);
-                }else{
-                    Toast.makeText(getContext(),"Start of list",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
         return rootview;
     }
@@ -270,7 +286,7 @@ public class StepsDetailFragment extends Fragment {
         if (player != null) {
             currentWindow = player.getCurrentWindowIndex();
             playBackPosition = player.getCurrentPosition();
-            autoPlay =false;
+            autoPlay=player.getPlayWhenReady();
             player.release();
             player = null;
         }
@@ -282,11 +298,6 @@ public class StepsDetailFragment extends Fragment {
         releasePlayer();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        autoPlay = true;
-    }
 
     private void showSystemUI() {
         View decorView = getActivity().getWindow().getDecorView();
