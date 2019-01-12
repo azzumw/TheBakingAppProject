@@ -1,6 +1,8 @@
 package com.example.macintosh.thebakingappproject;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -45,6 +47,7 @@ public class StepsDetailFragment extends Fragment {
     private int currentPosition;
     private int nextPosition;
     private int previousPosition;
+    private boolean hasVideo= false;
 
     Button backBtn;
     Button nextBtn;
@@ -63,6 +66,8 @@ public class StepsDetailFragment extends Fragment {
     public static final String AUTOPLAY = "autoplay";
     public static final String CURRENT_WINDOW_INDEX = "current_window_index";
     public static final String PLAYBACK_POSITION = "playback_position";
+
+    private boolean mTwoPane;
 
     public StepsDetailFragment() {
     }
@@ -84,11 +89,14 @@ public class StepsDetailFragment extends Fragment {
         if(step.getVideoURL().length()>0){
 
             initialisePlayer();
+            if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+                hideSystemUI();
+            }
 
         }else{
             simpleExoPlayerView.setVisibility(View.GONE);
             emtpyImg.setVisibility(View.VISIBLE);
-
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             //set the thumbnail in the container
             if(step.getThumbnailURL().length()>0){
                 Picasso.with(getContext())
@@ -137,15 +145,14 @@ public class StepsDetailFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.e("ON_CREATE","OnCreate");
+
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            Log.e("ACTIVIYT CREATED","OOnACITIVUYTBCREATED");
-            hideSystemUI();
-        }
+
+
     }
 
     @Override
@@ -162,12 +169,16 @@ public class StepsDetailFragment extends Fragment {
         View rootview = inflater.inflate(R.layout.fragment_steps_details,container,false);
         Log.e("OnCREATEVIEW","ON CREATE VIEW");
 
-
+        if(rootview.findViewById(R.id.tab_root_linear_layout)!= null){
+            mTwoPane = true;
+        }
         stepInstructionTv = rootview.findViewById(R.id.textView2);
         simpleExoPlayerView = rootview.findViewById(R.id.simpleExoPlayerView);
         emtpyImg = rootview.findViewById(R.id.empty_img_view);
         backBtn = rootview.findViewById(R.id.backbtn);
         nextBtn = rootview.findViewById(R.id.nextbtn);
+
+
 
         Bundle bundle = getArguments();
         if(bundle!= null){
@@ -177,14 +188,12 @@ public class StepsDetailFragment extends Fragment {
             currentPosition = bundle.getInt(getString(R.string.CURRENT_POSITON_KEY));
             previousPosition = currentPosition-1;
             nextPosition = currentPosition+1;
+        }
 
-            if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-                ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle("Step " + step.getId());
-
-                stepInstructionTv.setText(step.getDescription());
-            }
-
-
+        if(step.getVideoURL().length()>0){
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        }else {
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
 
         if(savedInstanceState!= null){
@@ -193,7 +202,16 @@ public class StepsDetailFragment extends Fragment {
 //            autoPlay = savedInstanceState.getBoolean(AUTOPLAY);
         }
 
+
+
+
+
+
+
+
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            stepInstructionTv.setText(step.getDescription());
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle("Step " + step.getId());
             nextBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
