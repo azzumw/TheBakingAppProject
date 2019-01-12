@@ -67,7 +67,7 @@ public class StepsDetailFragment extends Fragment {
     public static final String CURRENT_WINDOW_INDEX = "current_window_index";
     public static final String PLAYBACK_POSITION = "playback_position";
 
-    private boolean mTwoPane;
+    private boolean mTwoPane = false;
 
     public StepsDetailFragment() {
     }
@@ -89,9 +89,12 @@ public class StepsDetailFragment extends Fragment {
         if(step.getVideoURL().length()>0){
 
             initialisePlayer();
-            if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-                hideSystemUI();
+            if(!mTwoPane){
+                if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+                    hideSystemUI();
+                }
             }
+
 
         }else{
             //set the thumbnail in the container
@@ -154,7 +157,7 @@ public class StepsDetailFragment extends Fragment {
         View rootview = inflater.inflate(R.layout.fragment_steps_details,container,false);
         Log.e("OnCREATEVIEW","ON CREATE VIEW");
 
-        if(rootview.findViewById(R.id.tab_root_linear_layout)!= null){
+        if(rootview.findViewById(R.id.relative_tablet_layout)!= null){
             mTwoPane = true;
         }
         stepInstructionTv = rootview.findViewById(R.id.textView2);
@@ -175,15 +178,52 @@ public class StepsDetailFragment extends Fragment {
             nextPosition = currentPosition+1;
         }
 
-        if(step.getVideoURL().length()>0){
-            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
-        }else {
-            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            simpleExoPlayerView.setVisibility(View.GONE);
-            emtpyImg.setVisibility(View.VISIBLE);
-
+        //Tablet
+        if(mTwoPane){
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle("Step " + step.getId());
+            stepInstructionTv.setVisibility(View.VISIBLE);
+            stepInstructionTv.setText(step.getDescription());
+            nextButtonListener();
+            backButtonListener();
+            if(step.getVideoURL().length()==0){
+                simpleExoPlayerView.setVisibility(View.GONE);
+                emtpyImg.setVisibility(View.VISIBLE);
+            }
         }
+
+
+        //Mobile
+        else{
+            if(step.getVideoURL().length()>0){
+                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+
+                if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+                    ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle("Step " + step.getId());
+                    stepInstructionTv.setText(step.getDescription());
+                    nextButtonListener();
+                    backButtonListener();
+                }
+
+            } else{
+                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle("Step " + step.getId());
+                simpleExoPlayerView.setVisibility(View.GONE);
+                emtpyImg.setVisibility(View.VISIBLE);
+                stepInstructionTv.setVisibility(View.VISIBLE);
+                stepInstructionTv.setText(step.getDescription());
+//                LinearLayout linearLayout  =  getActivity().findViewById(R.id.childLinearLayout);
+//                linearLayout.setVisibility(View.VISIBLE);
+
+            }
+            nextButtonListener();
+            backButtonListener();
+        }
+
+
+
+
+
 
         if(savedInstanceState!= null){
             currentWindow = savedInstanceState.getInt(CURRENT_WINDOW_INDEX);
@@ -193,44 +233,48 @@ public class StepsDetailFragment extends Fragment {
 
 
 
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            stepInstructionTv.setText(step.getDescription());
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle("Step " + step.getId());
-            nextBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
 
-                    if(currentPosition< STEP_ARRAY_SIZE-1){
-                        releasePlayer();
-//                        MyExoPlayer.clearPlayerResources();
 
-                        showNextStep(nextPosition);
-                    }
-                    else{
-                        Toast.makeText(getContext(),"End of List",Toast.LENGTH_SHORT).show();
-                    }
 
-                }
-            });
-
-            backBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(currentPosition>0){
-                        releasePlayer();
-//                        MyExoPlayer.clearPlayerResources();
-                        showPreviousStep(previousPosition);
-                    }else{
-                        Toast.makeText(getContext(),"Start of list",Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }
 
 
 
 
         return rootview;
+    }
+
+    private void nextButtonListener(){
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(currentPosition< STEP_ARRAY_SIZE-1){
+                    releasePlayer();
+//                        MyExoPlayer.clearPlayerResources();
+
+                    showNextStep(nextPosition);
+                }
+                else{
+                    Toast.makeText(getContext(),"End of List",Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+    }
+
+    private void backButtonListener(){
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(currentPosition>0){
+                    releasePlayer();
+//                        MyExoPlayer.clearPlayerResources();
+                    showPreviousStep(previousPosition);
+                }else{
+                    Toast.makeText(getContext(),"Start of list",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 
