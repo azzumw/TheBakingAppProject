@@ -307,6 +307,10 @@ public class StepsDetailFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        if(!mTwoPane){
+
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle(null);
+        }
     }
 }
