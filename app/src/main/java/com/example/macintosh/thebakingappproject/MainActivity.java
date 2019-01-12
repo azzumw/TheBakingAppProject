@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -48,13 +49,15 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
         boolean isThisPhone = getResources().getBoolean(R.bool.isPhone);
 
 
+
         if(isThisPhone){
             //phone
             layoutManager = new LinearLayoutManager(this);
 
         }else{
             //tablet
-            layoutManager = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
+//            int numberCol = calculateNoOfColumns(this);
+            layoutManager = new GridLayoutManager(this,3);
             int spanCount = 60; // 3 columns
             mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount));
         }
@@ -131,5 +134,12 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
         emptyImgView.setVisibility(View.VISIBLE);
         emptyTv.setVisibility(View.VISIBLE);
         retryBtn.setVisibility(View.VISIBLE);
+    }
+
+    public static int calculateNoOfColumns(Context context) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        int noOfColumns = (int) (dpWidth / 180);
+        return noOfColumns;
     }
 }

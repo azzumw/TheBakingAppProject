@@ -8,7 +8,7 @@ public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
     private int halfSpace;
 
     public GridSpacingItemDecoration(int space) {
-        this.halfSpace = space / 2;
+        this.halfSpace = space / 3;
     }
 
     @Override
