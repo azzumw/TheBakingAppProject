@@ -19,8 +19,6 @@ import java.util.ArrayList;
 
 public class IngredientsFragment extends Fragment {
 
-    private boolean mTwoPane = false;
-
     public IngredientsFragment() {
 
     }
@@ -30,10 +28,6 @@ public class IngredientsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_ingredients_list,container,false);
-
-        if(rootview.findViewById(R.id.tab_root_linear_layout)!= null){
-            mTwoPane = true;
-        }
 
         RecyclerView recyclerView = rootview.findViewById(R.id.ingredientsRecyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -60,9 +54,7 @@ public class IngredientsFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(!mTwoPane){
-
             ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle(null);
-        }
+
     }
 }

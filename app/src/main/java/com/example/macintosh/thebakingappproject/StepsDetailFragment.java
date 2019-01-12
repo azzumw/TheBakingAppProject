@@ -47,10 +47,9 @@ public class StepsDetailFragment extends Fragment {
     private int currentPosition;
     private int nextPosition;
     private int previousPosition;
-    private boolean hasVideo= false;
 
-    Button backBtn;
-    Button nextBtn;
+    private Button backBtn;
+    private Button nextBtn;
 
     private int STEP_ARRAY_SIZE;
     private Step step;
@@ -220,25 +219,11 @@ public class StepsDetailFragment extends Fragment {
             backButtonListener();
         }
 
-
-
-
-
-
         if(savedInstanceState!= null){
             currentWindow = savedInstanceState.getInt(CURRENT_WINDOW_INDEX);
             playBackPosition = savedInstanceState.getLong(PLAYBACK_POSITION);
-//            autoPlay = savedInstanceState.getBoolean(AUTOPLAY);
+            autoPlay = savedInstanceState.getBoolean(AUTOPLAY);
         }
-
-
-
-
-
-
-
-
-
 
         return rootview;
     }

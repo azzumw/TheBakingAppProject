@@ -70,8 +70,6 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
     }
 
 
-
-
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -132,12 +130,6 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
         Gson gson = new Gson();
         return gson.toJson(recipe);
     }
-
-//    private Recipe getRecipeFromJson(String json){
-//        Gson gson = new Gson();
-//        Recipe recipeFromJson = gson.fromJson(json,Recipe.class);
-//        return recipeFromJson;
-//    }
 
     @Override
     public void onItemClicked(int pos) {
