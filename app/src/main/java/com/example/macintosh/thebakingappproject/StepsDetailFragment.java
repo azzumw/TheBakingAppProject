@@ -94,9 +94,6 @@ public class StepsDetailFragment extends Fragment {
             }
 
         }else{
-            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            simpleExoPlayerView.setVisibility(View.GONE);
-            emtpyImg.setVisibility(View.VISIBLE);
 
             //set the thumbnail in the container
             if(step.getThumbnailURL().length()>0){
@@ -142,19 +139,7 @@ public class StepsDetailFragment extends Fragment {
         return new ExtractorMediaSource(uri, dataSourceFactory, extractorSourceFactory, null, null);
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.e("ON_CREATE","OnCreate");
 
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-
-    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -195,6 +180,7 @@ public class StepsDetailFragment extends Fragment {
             getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }else {
             getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         }
 
         if(savedInstanceState!= null){
@@ -205,12 +191,9 @@ public class StepsDetailFragment extends Fragment {
 
 
 
-
-
-
-
-
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            simpleExoPlayerView.setVisibility(View.GONE);
+            emtpyImg.setVisibility(View.VISIBLE);
             stepInstructionTv.setText(step.getDescription());
             ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle("Step " + step.getId());
             nextBtn.setOnClickListener(new View.OnClickListener() {
