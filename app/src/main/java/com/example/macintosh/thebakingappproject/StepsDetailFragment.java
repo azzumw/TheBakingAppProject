@@ -94,9 +94,10 @@ public class StepsDetailFragment extends Fragment {
             }
 
         }else{
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             simpleExoPlayerView.setVisibility(View.GONE);
             emtpyImg.setVisibility(View.VISIBLE);
-            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
             //set the thumbnail in the container
             if(step.getThumbnailURL().length()>0){
                 Picasso.with(getContext())
@@ -348,5 +349,11 @@ public class StepsDetailFragment extends Fragment {
                 }else showSystemUI();
             }
         });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
     }
 }
