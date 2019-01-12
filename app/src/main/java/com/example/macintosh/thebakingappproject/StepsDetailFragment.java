@@ -94,7 +94,6 @@ public class StepsDetailFragment extends Fragment {
             }
 
         }else{
-
             //set the thumbnail in the container
             if(step.getThumbnailURL().length()>0){
                 Picasso.with(getContext())
@@ -178,8 +177,11 @@ public class StepsDetailFragment extends Fragment {
 
         if(step.getVideoURL().length()>0){
             getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+
         }else {
             getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            simpleExoPlayerView.setVisibility(View.GONE);
+            emtpyImg.setVisibility(View.VISIBLE);
 
         }
 
@@ -192,8 +194,6 @@ public class StepsDetailFragment extends Fragment {
 
 
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            simpleExoPlayerView.setVisibility(View.GONE);
-            emtpyImg.setVisibility(View.VISIBLE);
             stepInstructionTv.setText(step.getDescription());
             ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle("Step " + step.getId());
             nextBtn.setOnClickListener(new View.OnClickListener() {
@@ -243,36 +243,6 @@ public class StepsDetailFragment extends Fragment {
         onImageClickListener.onBackPressed(previousPosition);
     }
 
-    private Button showNextButton(View view){
-        //set the properties for button
-        Button btnTag = new Button(getContext());
-        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                1.0f
-        );
-        btnTag.setText(R.string.NEXT_BTN_TEXT);
-        btnTag.setLayoutParams(param);
-        LinearLayout linearLayout= view.findViewById(R.id.childLinearLayout);
-        linearLayout.addView(btnTag);
-        return btnTag;
-    }
-
-    private Button showBackButton(View view){
-        //set the properties for button
-        Button btnTag = new Button(getContext());
-        btnTag.setText(R.string.BACK_BTN_TEXT);
-
-        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                1.0f
-        );
-        btnTag.setLayoutParams(param);
-        LinearLayout linearLayout= view.findViewById(R.id.childLinearLayout);
-        linearLayout.addView(btnTag);
-        return btnTag;
-    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
