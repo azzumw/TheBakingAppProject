@@ -7,11 +7,13 @@
         android:layout_width="350dp"
         app:cardCornerRadius="5dp"
         android:layout_margin="5dp"
-        android:layout_height="300dp">
+        android:layout_height="300dp"
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="88dp"
+            android:background="@drawable/list_item_selector"
             android:layout_gravity="center_vertical"
             android:orientation="horizontal">
             <TextView

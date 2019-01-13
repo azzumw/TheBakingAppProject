@@ -145,7 +145,6 @@ public class StepsDetailFragment extends Fragment {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        Log.e("CONFIG","OnConfigurationChange");
         autoPlay = true;
     }
 
@@ -154,7 +153,6 @@ public class StepsDetailFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View rootview = inflater.inflate(R.layout.fragment_steps_details,container,false);
-        Log.e("OnCREATEVIEW","ON CREATE VIEW");
 
         if(rootview.findViewById(R.id.relative_tablet_layout)!= null){
             mTwoPane = true;

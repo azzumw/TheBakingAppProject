@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
     private ImageView emptyImgView;
     private Button retryBtn;
 
-    private static final int NUM = 10;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
