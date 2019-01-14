@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -17,17 +20,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.macintosh.thebakingappproject.IdlingResource.SimpleIdlingResource;
 import com.example.macintosh.thebakingappproject.Models.Recipe;
 import com.example.macintosh.thebakingappproject.Network.GetDataService;
 import com.example.macintosh.thebakingappproject.Network.RetrofitClientInstance;
 
 import java.util.List;
 
+import androidx.test.espresso.IdlingResource;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity  implements MainRecipeCustomAdapter.MainRecipeCustomOnClickHandler {
+
+    @Nullable
+    private SimpleIdlingResource mIdlingResource;
 
     private RecyclerView mRecyclerView;
     private MainRecipeCustomAdapter mainRecipeCustomAdapter;
@@ -140,5 +148,14 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         int noOfColumns = (int) (dpWidth / 180);
         return noOfColumns;
+    }
+
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            mIdlingResource = new SimpleIdlingResource();
+        }
+        return mIdlingResource;
     }
 }

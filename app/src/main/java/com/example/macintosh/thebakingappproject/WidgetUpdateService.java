@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.Nullable;
 
 public class WidgetUpdateService extends IntentService {
@@ -44,6 +45,13 @@ public class WidgetUpdateService extends IntentService {
         Intent intent = new Intent(context, WidgetUpdateService.class);
 
         intent.setAction(ACTION_UPDATE_LIST_VIEW);
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            context.startForegroundService(intent);
+//        }
+//        else {
+//            context.startService(intent);
+//        }
 
         context.startService(intent);
     }

@@ -12,7 +12,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="88dp"
+            android:layout_height="match_parent"
             android:background="@drawable/list_item_selector"
             android:layout_gravity="center_vertical"
             android:orientation="horizontal">
