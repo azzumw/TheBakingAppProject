@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.macintosh.thebakingappproject.IdlingResource.EspressoIdlingResource;
 import com.example.macintosh.thebakingappproject.IdlingResource.SimpleIdlingResource;
 import com.example.macintosh.thebakingappproject.Models.Recipe;
 import com.example.macintosh.thebakingappproject.Network.GetDataService;
@@ -68,11 +69,13 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
             int spanCount = 60; // 3 columns
             mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount));
         }
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
         callRetroFit();
     }
 
@@ -97,6 +100,7 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
     }
 
     private void callRetroFit(){
+        EspressoIdlingResource.increment();
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<List<Recipe>> call = service.getAllRecipes();
 
@@ -107,6 +111,7 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
                 List<Recipe> recipeList = response.body();
                 onConnectionSuccess();
                 generateDataList(recipeList);
+
             }
 
             @Override
@@ -115,18 +120,14 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
                 onConnectionFailure();
             }
         });
+
+        if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
+            EspressoIdlingResource.decrement(); // Set app as idle.
+        }
     }
 
     public void retyconnection(View view) {
         callRetroFit();
-//        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-//        NetworkInfo wifiInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-//        NetworkInfo mobileInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-//        if ((wifiInfo != null && wifiInfo.isConnected()) || (mobileInfo != null && mobileInfo.isConnected())) {
-////            return true;
-////        }else{
-////            return false;
-////        }
     }
 
     private void onConnectionSuccess(){
@@ -150,12 +151,12 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
         return noOfColumns;
     }
 
-    @VisibleForTesting
-    @NonNull
-    public IdlingResource getIdlingResource() {
-        if (mIdlingResource == null) {
-            mIdlingResource = new SimpleIdlingResource();
-        }
-        return mIdlingResource;
-    }
+//    @VisibleForTesting
+//    @NonNull
+//    public IdlingResource getIdlingResource() {
+//        if (mIdlingResource == null) {
+//            mIdlingResource = new SimpleIdlingResource();
+//        }
+//        return mIdlingResource;
+//    }
 }

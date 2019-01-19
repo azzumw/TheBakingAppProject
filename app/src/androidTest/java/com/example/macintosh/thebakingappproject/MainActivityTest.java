@@ -1,5 +1,6 @@
 package com.example.macintosh.thebakingappproject;
 
+import com.example.macintosh.thebakingappproject.IdlingResource.EspressoIdlingResource;
 import com.example.macintosh.thebakingappproject.IdlingResource.SimpleIdlingResource;
 
 import org.junit.After;
@@ -11,6 +12,7 @@ import org.junit.runner.RunWith;
 import java.util.Random;
 
 import androidx.test.espresso.Espresso;
+import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.IdlingResource;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.rule.ActivityTestRule;
@@ -31,11 +33,16 @@ public class MainActivityTest {
 
     private IdlingResource idlingResource;
 
-    @Before
-    public void registerIdlingResource(){
-        idlingResource =  mainActivityTestRule.getActivity().getIdlingResource();
+//    @Before
+//    public void registerIdlingResource(){
+//        idlingResource =  mainActivityTestRule.getActivity().getIdlingResource();
+//
+//        Espresso.registerIdlingResources(idlingResource);
+//    }
 
-        Espresso.registerIdlingResources(idlingResource);
+    @Before
+    public void registerIdlingResource() {
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.getIdlingResource());
     }
 
     @Test
@@ -48,11 +55,16 @@ public class MainActivityTest {
 
     }
 
-
     @After
-    public void unRegisterIdlingResource(){
-        if(idlingResource!= null){
-            Espresso.unregisterIdlingResources(idlingResource);
-        }
+    public void unregisterIdlingResource() {
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.getIdlingResource());
     }
+
+//
+//    @After
+//    public void unRegisterIdlingResource(){
+//        if(idlingResource!= null){
+//            Espresso.unregisterIdlingResources(idlingResource);
+//        }
+//    }
 }

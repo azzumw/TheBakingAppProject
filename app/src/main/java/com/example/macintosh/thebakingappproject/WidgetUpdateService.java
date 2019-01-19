@@ -46,13 +46,13 @@ public class WidgetUpdateService extends IntentService {
 
         intent.setAction(ACTION_UPDATE_LIST_VIEW);
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            context.startForegroundService(intent);
-//        }
-//        else {
-//            context.startService(intent);
-//        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(intent);
+        }
+        else {
+            context.startService(intent);
+        }
 
-        context.startService(intent);
+//        context.startService(intent);
     }
 }
