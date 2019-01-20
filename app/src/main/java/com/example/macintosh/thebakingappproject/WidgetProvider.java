@@ -13,7 +13,7 @@ import android.widget.RemoteViews;
 public class WidgetProvider extends AppWidgetProvider {
 
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
@@ -40,14 +40,16 @@ public class WidgetProvider extends AppWidgetProvider {
     }
 
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
-        WidgetUpdateService.startActionUpdateAppWidgets(context);
+        for (int appWidgetId: appWidgetIds) {
+            updateAppWidget(context, appWidgetManager, appWidgetId);
+        }
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+
     public static void updateAllAppWidget(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         for (int appWidgetId : appWidgetIds) {
             // There may be multiple widgets active, so update all of them
@@ -55,10 +57,6 @@ public class WidgetProvider extends AppWidgetProvider {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    @Override
-    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
-        WidgetUpdateService.startActionUpdateAppWidgets(context);
-        super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
-    }
+
+
 }

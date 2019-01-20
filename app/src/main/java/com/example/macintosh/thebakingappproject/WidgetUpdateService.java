@@ -1,6 +1,8 @@
 package com.example.macintosh.thebakingappproject;
 
+import android.app.Application;
 import android.app.IntentService;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
@@ -15,6 +17,12 @@ public class WidgetUpdateService extends IntentService {
 
     public WidgetUpdateService() {
         super("WidgetUpdateService");
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
     }
 
     @Override
@@ -42,6 +50,7 @@ public class WidgetUpdateService extends IntentService {
 
 
     public static void startActionUpdateAppWidgets(Context context) {
+
         Intent intent = new Intent(context, WidgetUpdateService.class);
 
         intent.setAction(ACTION_UPDATE_LIST_VIEW);
@@ -52,7 +61,5 @@ public class WidgetUpdateService extends IntentService {
         else {
             context.startService(intent);
         }
-
-//        context.startService(intent);
     }
 }

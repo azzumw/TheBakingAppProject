@@ -26,12 +26,12 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 public class MainActivityTest {
     @Rule public ActivityTestRule<MainActivity> mainActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
-    Random rand = new Random();
+//    Random rand = new Random();
 
-    int random_num = rand.nextInt(3);
+//    int random_num = rand.nextInt(3);
 
 
-    private IdlingResource idlingResource;
+//    private IdlingResource idlingResource;
 
 //    @Before
 //    public void registerIdlingResource(){

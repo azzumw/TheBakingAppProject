@@ -59,4 +59,6 @@ public class RecipeDetailMasterListFragment extends Fragment{
 
         return rootView;
     }
+
+
 }

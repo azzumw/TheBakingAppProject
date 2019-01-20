@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
     }
 
     private void callRetroFit(){
-        EspressoIdlingResource.increment();
+
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<List<Recipe>> call = service.getAllRecipes();
 
@@ -108,9 +108,13 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
         call.enqueue(new Callback<List<Recipe>>() {
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
+                EspressoIdlingResource.increment();
                 List<Recipe> recipeList = response.body();
                 onConnectionSuccess();
                 generateDataList(recipeList);
+                if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
+                    EspressoIdlingResource.decrement(); // Set app as idle.
+                }
 
             }
 
@@ -121,9 +125,7 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
             }
         });
 
-        if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
-            EspressoIdlingResource.decrement(); // Set app as idle.
-        }
+
     }
 
     public void retyconnection(View view) {

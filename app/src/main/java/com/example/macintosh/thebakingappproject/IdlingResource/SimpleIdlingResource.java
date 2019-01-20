@@ -8,7 +8,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import androidx.test.espresso.IdlingResource;
 
-import static android.support.v4.util.Preconditions.checkNotNull;
+import static com.google.android.exoplayer2.util.Assertions.checkNotNull;
+
 
 public class SimpleIdlingResource implements IdlingResource {
 
