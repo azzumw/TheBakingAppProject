@@ -37,9 +37,9 @@ public class WidgetProvider extends AppWidgetProvider {
 
         views.setEmptyView(R.id.widgetListView,R.id.emptyview);
         appWidgetManager.updateAppWidget(appWidgetId, views);
+
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widgetListView);
     }
-
-
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -48,15 +48,4 @@ public class WidgetProvider extends AppWidgetProvider {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
     }
-
-
-    public static void updateAllAppWidget(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        for (int appWidgetId : appWidgetIds) {
-            // There may be multiple widgets active, so update all of them
-            updateAppWidget(context, appWidgetManager, appWidgetId);
-        }
-    }
-
-
-
 }

@@ -1,5 +1,7 @@
 package com.example.macintosh.thebakingappproject;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Parcelable;
@@ -183,6 +185,15 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        WidgetUpdateService.startActionUpdateAppWidgets(this);
+        sendWidgeUpdate();
+    }
+
+    private void sendWidgeUpdate() {
+        Intent intent = new Intent(this, WidgetProvider.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        ComponentName thisAppWidget = new ComponentName(this, WidgetProvider.class);
+        int[] ids = AppWidgetManager.getInstance(this).getAppWidgetIds(thisAppWidget);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        sendBroadcast(intent);
     }
 }
