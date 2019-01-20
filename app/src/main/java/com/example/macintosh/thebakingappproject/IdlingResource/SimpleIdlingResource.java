@@ -13,62 +13,35 @@ import static com.google.android.exoplayer2.util.Assertions.checkNotNull;
 
 public class SimpleIdlingResource implements IdlingResource {
 
-    private final String mResourceName;
+    @Nullable
+    private volatile ResourceCallback mCallback;
 
-    private final AtomicInteger counter = new AtomicInteger(0);
-
-    // written from main thread, read from any thread.
-    private volatile ResourceCallback resourceCallback;
-
-    /**
-     * Creates a SimpleCountingIdlingResource
-     *
-     * @param resourceName the resource name this resource should report to Espresso.
-     */
-    public SimpleIdlingResource(String resourceName) {
-        mResourceName = checkNotNull(resourceName);
-    }
+    // Idleness is controlled with this boolean.
+    private AtomicBoolean mIsIdleNow = new AtomicBoolean(true);
 
     @Override
     public String getName() {
-        return mResourceName;
+        return this.getClass().getName();
     }
 
     @Override
     public boolean isIdleNow() {
-        return counter.get() == 0;
+        return mIsIdleNow.get();
     }
 
     @Override
-    public void registerIdleTransitionCallback(ResourceCallback resourceCallback) {
-        this.resourceCallback = resourceCallback;
+    public void registerIdleTransitionCallback(ResourceCallback callback) {
+        mCallback = callback;
     }
 
     /**
-     * Increments the count of in-flight transactions to the resource being monitored.
+     * Sets the new idle state, if isIdleNow is true, it pings the {@link ResourceCallback}.
+     * @param isIdleNow false if there are pending operations, true if idle.
      */
-    public void increment() {
-        counter.getAndIncrement();
-    }
-
-    /**
-     * Decrements the count of in-flight transactions to the resource being monitored.
-     *
-     * If this operation results in the counter falling below 0 - an exception is raised.
-     *
-     * @throws IllegalStateException if the counter is below 0.
-     */
-    public void decrement() {
-        int counterVal = counter.decrementAndGet();
-        if (counterVal == 0) {
-            // we've gone from non-zero to zero. That means we're idle now! Tell espresso.
-            if (null != resourceCallback) {
-                resourceCallback.onTransitionToIdle();
-            }
-        }
-
-        if (counterVal < 0) {
-            throw new IllegalArgumentException("Counter has been corrupted!");
+    public void setIdleState(boolean isIdleNow) {
+        mIsIdleNow.set(isIdleNow);
+        if (isIdleNow && mCallback != null) {
+            mCallback.onTransitionToIdle();
         }
     }
 }

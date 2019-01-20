@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.macintosh.thebakingappproject.IdlingResource.EspressoIdlingResource;
+import com.example.macintosh.thebakingappproject.IdlingResource.MessageDelayer;
 import com.example.macintosh.thebakingappproject.IdlingResource.SimpleIdlingResource;
 import com.example.macintosh.thebakingappproject.Models.Recipe;
 import com.example.macintosh.thebakingappproject.Network.GetDataService;
@@ -33,7 +34,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity  implements MainRecipeCustomAdapter.MainRecipeCustomOnClickHandler {
+public class MainActivity extends AppCompatActivity  implements MainRecipeCustomAdapter.MainRecipeCustomOnClickHandler,MessageDelayer.DelayerCallback {
 
     @Nullable
     private SimpleIdlingResource mIdlingResource;
@@ -49,6 +50,16 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getIdlingResource();
+        if (mIdlingResource != null) {
+            mIdlingResource.setIdleState(false);
+        }
+
+        final String text = "Sample Text";
+        MessageDelayer.processMessage(text, this, mIdlingResource);
+
+
         emptyTv = findViewById(R.id.empty_view);
         emptyImgView = findViewById(R.id.empty_img_view);
         retryBtn = findViewById(R.id.retryBtn);
@@ -108,13 +119,14 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
         call.enqueue(new Callback<List<Recipe>>() {
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
-                EspressoIdlingResource.increment();
+                getIdlingResource();
+                if (mIdlingResource != null){
+                    mIdlingResource.setIdleState(false);
+                }
                 List<Recipe> recipeList = response.body();
                 onConnectionSuccess();
                 generateDataList(recipeList);
-                if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
-                    EspressoIdlingResource.decrement(); // Set app as idle.
-                }
+
 
             }
 
@@ -125,6 +137,10 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
             }
         });
 
+
+//        if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
+//            EspressoIdlingResource.decrement(); // Set app as idle.
+//        }
 
     }
 
@@ -153,12 +169,20 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
         return noOfColumns;
     }
 
-//    @VisibleForTesting
-//    @NonNull
-//    public IdlingResource getIdlingResource() {
-//        if (mIdlingResource == null) {
-//            mIdlingResource = new SimpleIdlingResource();
-//        }
-//        return mIdlingResource;
-//    }
+
+
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            mIdlingResource = new SimpleIdlingResource();
+        }
+        return mIdlingResource;
+    }
+
+    @Override
+    public void onDone(String text) {
+        Toast toast = Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG);
+        toast.show();
+    }
 }

@@ -19,7 +19,13 @@ import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.allOf;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -40,31 +46,38 @@ public class MainActivityTest {
 //        Espresso.registerIdlingResources(idlingResource);
 //    }
 
+    private IdlingResource mIdlingResource;
+
+//    @Before
+//    public void registerIdlingResource() {
+//        IdlingRegistry.getInstance().register(EspressoIdlingResource.getIdlingResource());
+//    }
+
     @Before
     public void registerIdlingResource() {
-        IdlingRegistry.getInstance().register(EspressoIdlingResource.getIdlingResource());
+        mIdlingResource = mainActivityTestRule.getActivity().getIdlingResource();
+        Espresso.registerIdlingResources(mIdlingResource);
     }
-
     @Test
     public void scrollToPosition_mainRecipeList(){
         // First, scroll to the position that needs to be matched and click on it.
         onView(withId(R.id.mainRecipeRV)).perform(RecyclerViewActions.scrollToPosition(1));
+        onView(withText("Brownies")).check(matches(isDisplayed()));
 //
 //        onView(allOf(withId(R.id.mainRecipeRV), isDisplayed())).perform(RecyclerViewActions
 //                .actionOnItem(hasDescendant(withText("Brownies")), click()));
 
     }
 
+//    @After
+//    public void unregisterIdlingResource() {
+//        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.getIdlingResource());
+//    }
+
     @After
     public void unregisterIdlingResource() {
-        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.getIdlingResource());
+        if (mIdlingResource != null) {
+            Espresso.unregisterIdlingResources(mIdlingResource);
+        }
     }
-
-//
-//    @After
-//    public void unRegisterIdlingResource(){
-//        if(idlingResource!= null){
-//            Espresso.unregisterIdlingResources(idlingResource);
-//        }
-//    }
 }
