@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 
 import java.util.Random;
 
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.IdlingResource;
@@ -30,40 +31,51 @@ import static org.hamcrest.CoreMatchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
-    @Rule public ActivityTestRule<MainActivity> mainActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+
+    @Rule
+    public ActivityTestRule<MainActivity> mainActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
 //    Random rand = new Random();
 
 //    int random_num = rand.nextInt(3);
 
 
-//    private IdlingResource idlingResource;
+    private IdlingResource idlingResource;
+
+    @Before
+    public void registerIdlingResource(){
+
+        idlingResource =  mainActivityTestRule.getActivity().getIdlingResource();
+
+        Espresso.registerIdlingResources(idlingResource);
+    }
 
 //    @Before
-//    public void registerIdlingResource(){
-//        idlingResource =  mainActivityTestRule.getActivity().getIdlingResource();
-//
-//        Espresso.registerIdlingResources(idlingResource);
+//    public void registerIdlingResource() {
+//        ActivityScenario activityScenario = ActivityScenario.launch(MainActivity.class);
+//        activityScenario.onActivity(new ActivityScenario.ActivityAction<MainActivity>() {
+//            @Override
+//            public void perform(MainActivity activity) {
+//                idlingResource = activity.getIdlingResource();
+//                // To prove that the test fails, omit this call:
+//                IdlingRegistry.getInstance().register(idlingResource);
+//            }
+//        });
 //    }
 
-    private IdlingResource mIdlingResource;
 
 //    @Before
 //    public void registerIdlingResource() {
 //        IdlingRegistry.getInstance().register(EspressoIdlingResource.getIdlingResource());
 //    }
 
-    @Before
-    public void registerIdlingResource() {
-        mIdlingResource = mainActivityTestRule.getActivity().getIdlingResource();
-        Espresso.registerIdlingResources(mIdlingResource);
-    }
     @Test
-    public void scrollToPosition_mainRecipeList(){
+    public void scrollToPosition_mainRecipeList() throws InterruptedException {
+
         // First, scroll to the position that needs to be matched and click on it.
-        onView(withId(R.id.mainRecipeRV)).perform(RecyclerViewActions.scrollToPosition(1));
-        onView(withText("Brownies")).check(matches(isDisplayed()));
-//
+//        onView(withId(R.id.mainRecipeRV)).perform(RecyclerViewActions.scrollToPosition(1));
+//        onView(withText("Brownies")).check(matches(isDisplayed()));
+
 //        onView(allOf(withId(R.id.mainRecipeRV), isDisplayed())).perform(RecyclerViewActions
 //                .actionOnItem(hasDescendant(withText("Brownies")), click()));
 
@@ -76,8 +88,10 @@ public class MainActivityTest {
 
     @After
     public void unregisterIdlingResource() {
-        if (mIdlingResource != null) {
-            Espresso.unregisterIdlingResources(mIdlingResource);
+        if (idlingResource != null) {
+//            IdlingRegistry.getInstance().unregister(idlingResource);
+            Espresso.unregisterIdlingResources(idlingResource);
         }
     }
+
 }

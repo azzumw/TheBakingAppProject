@@ -34,10 +34,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity  implements MainRecipeCustomAdapter.MainRecipeCustomOnClickHandler,MessageDelayer.DelayerCallback {
+public class MainActivity extends AppCompatActivity  implements MainRecipeCustomAdapter.MainRecipeCustomOnClickHandler, MessageDelayer.DelayerCallback{
 
-    @Nullable
-    private SimpleIdlingResource mIdlingResource;
 
     private RecyclerView mRecyclerView;
     private MainRecipeCustomAdapter mainRecipeCustomAdapter;
@@ -46,19 +44,19 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
     private ImageView emptyImgView;
     private Button retryBtn;
 
+    @Nullable private SimpleIdlingResource mIdlingResource;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getIdlingResource();
-        if (mIdlingResource != null) {
-            mIdlingResource.setIdleState(false);
-        }
+//        getIdlingResource();
+//        if (mIdlingResource != null) {
+//            mIdlingResource.setIdleState(false);
+//        }
 
-        final String text = "Sample Text";
-        MessageDelayer.processMessage(text, this, mIdlingResource);
-
+//        getIdlingResource();
 
         emptyTv = findViewById(R.id.empty_view);
         emptyImgView = findViewById(R.id.empty_img_view);
@@ -80,6 +78,7 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
             int spanCount = 60; // 3 columns
             mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount));
         }
+        MessageDelayer.processMessage("Sample",this,mIdlingResource);
 
     }
 
@@ -119,10 +118,7 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
         call.enqueue(new Callback<List<Recipe>>() {
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
-                getIdlingResource();
-                if (mIdlingResource != null){
-                    mIdlingResource.setIdleState(false);
-                }
+
                 List<Recipe> recipeList = response.body();
                 onConnectionSuccess();
                 generateDataList(recipeList);
@@ -170,6 +166,10 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
     }
 
 
+    @Override
+    public void onDone(String text) {
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    }
 
     @VisibleForTesting
     @NonNull
@@ -178,11 +178,5 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
             mIdlingResource = new SimpleIdlingResource();
         }
         return mIdlingResource;
-    }
-
-    @Override
-    public void onDone(String text) {
-        Toast toast = Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG);
-        toast.show();
     }
 }

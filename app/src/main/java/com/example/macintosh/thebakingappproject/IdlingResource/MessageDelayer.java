@@ -6,7 +6,7 @@ import android.os.Handler;
 
 public class MessageDelayer {
 
-    private static final int DELAY_MILLIS = 5000;
+    private static final int DELAY_MILLIS = 6000;
 
     public interface DelayerCallback {
         void onDone(String text);
