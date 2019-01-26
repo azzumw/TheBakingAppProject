@@ -1,5 +1,7 @@
 package com.example.macintosh.thebakingappproject.Network;
 
+import android.os.AsyncTask;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -22,6 +24,12 @@ public class RetrofitClientInstance {
                     .baseUrl(RECIPE_URL)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
+
+//            new RestAdapter.Builder()
+//                    .setEndpoint(RECIPE_URL)
+//                    .setExecutors(AsyncTask.THREAD_POOL_EXECUTOR,
+//                            new MainThreadExecutor())
+//                    .build();
         }
         return retrofit;
     }
