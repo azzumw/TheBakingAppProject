@@ -1,6 +1,7 @@
 package com.example.macintosh.thebakingappproject;
 
 import com.example.macintosh.thebakingappproject.IdlingResource.EspressoIdlingResource;
+import com.example.macintosh.thebakingappproject.IdlingResource.OkHttpIdlingResource;
 import com.example.macintosh.thebakingappproject.IdlingResource.SimpleIdlingResource;
 
 import org.junit.After;
@@ -18,6 +19,7 @@ import androidx.test.espresso.IdlingResource;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
+import okhttp3.OkHttpClient;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -42,13 +44,13 @@ public class MainActivityTest {
 
     private IdlingResource idlingResource;
 
-    @Before
-    public void registerIdlingResource(){
-
-//        idlingResource =  mainActivityTestRule.getActivity().getIdlingResource();
-
-        Espresso.registerIdlingResources(idlingResource);
-    }
+//    @Before
+//    public void registerIdlingResource(){
+//
+////        idlingResource =  mainActivityTestRule.getActivity().getIdlingResource();
+//
+//        Espresso.registerIdlingResources(idlingResource);
+//    }
 
 //    @Before
 //    public void registerIdlingResource() {
@@ -64,16 +66,17 @@ public class MainActivityTest {
 //    }
 
 
-//    @Before
-//    public void registerIdlingResource() {
-//        IdlingRegistry.getInstance().register(EspressoIdlingResource.getIdlingResource());
-//    }
+    @Before
+    public void registerIdlingResource() {
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.getIdlingResource());
+    }
 
     @Test
-    public void scrollToPosition_mainRecipeList() throws InterruptedException {
-
+    public void scrollToPosition_mainRecipeList() {
+        OkHttpClient client = new OkHttpClient();
+        IdlingResource idlingResource = OkHttpIdlingResource.create("Ok!", client);
         // First, scroll to the position that needs to be matched and click on it.
-//        onView(withId(R.id.mainRecipeRV)).perform(RecyclerViewActions.scrollToPosition(1));
+        onView(withId(R.id.mainRecipeRV)).perform(RecyclerViewActions.scrollToPosition(1));
 //        onView(withText("Brownies")).check(matches(isDisplayed()));
 
 //        onView(allOf(withId(R.id.mainRecipeRV), isDisplayed())).perform(RecyclerViewActions
@@ -81,17 +84,17 @@ public class MainActivityTest {
 
     }
 
-//    @After
-//    public void unregisterIdlingResource() {
-//        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.getIdlingResource());
-//    }
-
     @After
     public void unregisterIdlingResource() {
-        if (idlingResource != null) {
-//            IdlingRegistry.getInstance().unregister(idlingResource);
-            Espresso.unregisterIdlingResources(idlingResource);
-        }
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.getIdlingResource());
     }
+
+//    @After
+//    public void unregisterIdlingResource() {
+//        if (idlingResource != null) {
+////            IdlingRegistry.getInstance().unregister(idlingResource);
+//            Espresso.unregisterIdlingResources(idlingResource);
+//        }
+//    }
 
 }
