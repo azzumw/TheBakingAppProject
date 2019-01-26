@@ -20,7 +20,7 @@ public class MessageDelayer {
     public static void processMessage(final String message, final DelayerCallback callback, @Nullable final SimpleIdlingResource idlingResource) {
         // The IdlingResource is null in production.
         if (idlingResource != null) {
-            idlingResource.setIdleState(false);
+//            idlingResource.setIdleState(false);
         }
 
         // Delay the execution, return message via callback.
@@ -31,7 +31,7 @@ public class MessageDelayer {
                 if (callback != null) {
                     callback.onDone(message);
                     if (idlingResource != null) {
-                        idlingResource.setIdleState(true);
+//                        idlingResource.setIdleState(true);
                     }
                 }
             }

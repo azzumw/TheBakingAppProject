@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import com.example.macintosh.thebakingappproject.IdlingResource.EspressoIdlingResource;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -21,6 +23,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import androidx.test.espresso.Espresso;
+import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.IdlingResource;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -39,12 +42,17 @@ public class MainActivityTest_NutellaPie {
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
+//    @Before
+//    public void registerIdlingResource(){
+//
+//        idlingResource =  mActivityTestRule.getActivity().getIdlingResource();
+//
+//        Espresso.registerIdlingResources(idlingResource);
+//    }
+
     @Before
-    public void registerIdlingResource(){
-
-        idlingResource =  mActivityTestRule.getActivity().getIdlingResource();
-
-        Espresso.registerIdlingResources(idlingResource);
+    public void registerIdlingResource() {
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.getIdlingResource());
     }
 
     @Test
@@ -98,11 +106,16 @@ public class MainActivityTest_NutellaPie {
 
 
 
+//    @After
+//    public void unregisterIdlingResource() {
+//        if (idlingResource != null) {
+////            IdlingRegistry.getInstance().unregister(idlingResource);
+//            Espresso.unregisterIdlingResources(idlingResource);
+//        }
+//    }
+
     @After
     public void unregisterIdlingResource() {
-        if (idlingResource != null) {
-//            IdlingRegistry.getInstance().unregister(idlingResource);
-            Espresso.unregisterIdlingResources(idlingResource);
-        }
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.getIdlingResource());
     }
 }

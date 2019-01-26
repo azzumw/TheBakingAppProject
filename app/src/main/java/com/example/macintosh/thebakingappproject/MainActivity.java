@@ -21,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.macintosh.thebakingappproject.IdlingResource.EspressoIdlingResource;
-import com.example.macintosh.thebakingappproject.IdlingResource.MessageDelayer;
 import com.example.macintosh.thebakingappproject.IdlingResource.SimpleIdlingResource;
 import com.example.macintosh.thebakingappproject.Models.Recipe;
 import com.example.macintosh.thebakingappproject.Network.GetDataService;
@@ -30,11 +29,12 @@ import com.example.macintosh.thebakingappproject.Network.RetrofitClientInstance;
 import java.util.List;
 
 import androidx.test.espresso.IdlingResource;
+import androidx.test.espresso.idling.CountingIdlingResource;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity  implements MainRecipeCustomAdapter.MainRecipeCustomOnClickHandler, MessageDelayer.DelayerCallback{
+public class MainActivity extends AppCompatActivity  implements MainRecipeCustomAdapter.MainRecipeCustomOnClickHandler{
 
 
     private RecyclerView mRecyclerView;
@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
     private Button retryBtn;
 
     @Nullable private SimpleIdlingResource mIdlingResource;
+    CountingIdlingResource mIdlingRes = new CountingIdlingResource("name");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,14 +79,14 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
             int spanCount = 60; // 3 columns
             mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount));
         }
-        MessageDelayer.processMessage("Sample",this,mIdlingResource);
+//        MessageDelayer.processMessage("Sample",this,mIdlingResource);
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
+        EspressoIdlingResource.increment();
         callRetroFit();
     }
 
@@ -122,7 +123,9 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
                 List<Recipe> recipeList = response.body();
                 onConnectionSuccess();
                 generateDataList(recipeList);
-
+                if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
+                    EspressoIdlingResource.decrement(); // Set app as idle.
+                }
 
             }
 
@@ -166,17 +169,17 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
     }
 
 
-    @Override
-    public void onDone(String text) {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
-    }
 
-    @VisibleForTesting
-    @NonNull
-    public IdlingResource getIdlingResource() {
-        if (mIdlingResource == null) {
-            mIdlingResource = new SimpleIdlingResource();
-        }
-        return mIdlingResource;
+//    @VisibleForTesting
+//    @NonNull
+//    public IdlingResource getIdlingResource() {
+//        if (mIdlingResource == null) {
+//            mIdlingResource = new SimpleIdlingResource();
+//        }
+//        return mIdlingResource;
+//    }
+
+    public CountingIdlingResource getIdlingResourceInTest() {
+        return mIdlingRes;
     }
 }
