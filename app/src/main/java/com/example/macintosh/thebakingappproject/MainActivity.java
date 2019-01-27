@@ -88,6 +88,9 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
         super.onResume();
         EspressoIdlingResource.increment();
         callRetroFit();
+        if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
+            EspressoIdlingResource.decrement(); // Set app as idle.
+        }
     }
 
     /*Method to generate List of data using RecyclerView with custom adapter*/
@@ -123,9 +126,7 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
                 List<Recipe> recipeList = response.body();
                 onConnectionSuccess();
                 generateDataList(recipeList);
-                if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
-                    EspressoIdlingResource.decrement(); // Set app as idle.
-                }
+
 
             }
 

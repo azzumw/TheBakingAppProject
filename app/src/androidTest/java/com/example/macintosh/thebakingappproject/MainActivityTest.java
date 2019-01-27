@@ -23,8 +23,11 @@ import okhttp3.OkHttpClient;
 
 import static androidx.test.espresso.Espresso.onView;
 
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.core.AllOf.allOf;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -38,7 +41,7 @@ public class MainActivityTest {
 //    int random_num = rand.nextInt(3);
 
 
-    private IdlingResource idlingResource;
+//    private IdlingResource idlingResource;
 
 //    @Before
 //    public void registerIdlingResource(){
@@ -76,8 +79,10 @@ public class MainActivityTest {
     public void scrollToPosition_mainRecipeList() {
 
         // First, scroll to the position that needs to be matched and click on it.
-        onView(withId(R.id.mainRecipeRV)).perform(RecyclerViewActions.scrollToPosition(1));
+//        onView(withId(R.id.mainRecipeRV)).perform(RecyclerViewActions.scrollToPosition(1));
 //        onView(withText("Brownies")).check(matches(isDisplayed()));
+
+        onView(allOf(withId(R.id.mainRecipeRV))).perform(RecyclerViewActions.scrollToPosition(1));
 
 //        onView(allOf(withId(R.id.mainRecipeRV), isDisplayed())).perform(RecyclerViewActions
 //                .actionOnItem(hasDescendant(withText("Brownies")), click()));
