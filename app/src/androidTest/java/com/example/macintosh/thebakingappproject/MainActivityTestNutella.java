@@ -1,10 +1,12 @@
 package com.example.macintosh.thebakingappproject;
 
 
-import android.support.test.espresso.ViewInteraction;
-import android.support.test.filters.LargeTest;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.espresso.ViewAssertion;
+import androidx.test.espresso.ViewInteraction;
+import androidx.test.filters.LargeTest;
+import androidx.test.rule.ActivityTestRule;
+import androidx.test.runner.AndroidJUnit4;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -21,18 +23,17 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.*;
 import static android.support.test.espresso.assertion.ViewAssertions.*;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.core.AllOf.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTestNutellaPie {
+public class MainActivityTestNutella {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void mainActivityTestNutellaPie() {
+    public void mainActivityTestNutella() {
         ViewInteraction textView = onView(
                 allOf(withId(R.id.recipeTitleTv), withText("Nutella Pie"),
                         childAtPosition(
@@ -41,7 +42,7 @@ public class MainActivityTestNutellaPie {
                                         0),
                                 0),
                         isDisplayed()));
-        textView.check(matches(withText("Nutella Pie")));
+        textView.check((ViewAssertion) matches(withText("Nutella Pie")));
 
     }
 
