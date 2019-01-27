@@ -1,7 +1,7 @@
 package com.example.macintosh.thebakingappproject;
 
 
-import androidx.test.espresso.ViewAssertion;
+
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
@@ -10,19 +10,20 @@ import androidx.test.runner.AndroidJUnit4;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.FrameLayout;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.*;
-import static android.support.test.espresso.assertion.ViewAssertions.*;
-import static android.support.test.espresso.matcher.ViewMatchers.*;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.assertion.ViewAssertions.*;
+import static androidx.test.espresso.matcher.ViewMatchers.*;
 import static org.hamcrest.core.AllOf.allOf;
 
 @LargeTest
@@ -32,17 +33,26 @@ public class MainActivityTestNutella {
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
+    @Before
+    public void waitForApi(){
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Test
     public void mainActivityTestNutella() {
         ViewInteraction textView = onView(
                 allOf(withId(R.id.recipeTitleTv), withText("Nutella Pie"),
                         childAtPosition(
                                 childAtPosition(
-                                        IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class),
+                                        IsInstanceOf.<View>instanceOf(FrameLayout.class),
                                         0),
                                 0),
                         isDisplayed()));
-        textView.check((ViewAssertion) matches(withText("Nutella Pie")));
+        textView.check( matches(withText("Nutella Pie")));
 
     }
 

@@ -22,13 +22,9 @@ import androidx.test.runner.AndroidJUnit4;
 import okhttp3.OkHttpClient;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.CoreMatchers.allOf;
+
 
 
 @RunWith(AndroidJUnit4.class)
@@ -67,14 +63,18 @@ public class MainActivityTest {
 
 
     @Before
-    public void registerIdlingResource() {
+    public void prepare() {
         IdlingRegistry.getInstance().register(EspressoIdlingResource.getIdlingResource());
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void scrollToPosition_mainRecipeList() {
-        OkHttpClient client = new OkHttpClient();
-        IdlingResource idlingResource = OkHttpIdlingResource.create("Ok!", client);
+
         // First, scroll to the position that needs to be matched and click on it.
         onView(withId(R.id.mainRecipeRV)).perform(RecyclerViewActions.scrollToPosition(1));
 //        onView(withText("Brownies")).check(matches(isDisplayed()));
