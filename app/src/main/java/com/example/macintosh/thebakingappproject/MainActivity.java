@@ -2,34 +2,27 @@ package com.example.macintosh.thebakingappproject;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.macintosh.thebakingappproject.IdlingResource.EspressoIdlingResource;
-import com.example.macintosh.thebakingappproject.IdlingResource.SimpleIdlingResource;
+
+
 import com.example.macintosh.thebakingappproject.Models.Recipe;
 import com.example.macintosh.thebakingappproject.Network.GetDataService;
 import com.example.macintosh.thebakingappproject.Network.RetrofitClientInstance;
-
 import java.util.List;
 
-import androidx.test.espresso.IdlingResource;
-import androidx.test.espresso.idling.CountingIdlingResource;
+
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,20 +37,13 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
     private ImageView emptyImgView;
     private Button retryBtn;
 
-    @Nullable private SimpleIdlingResource mIdlingResource;
-    CountingIdlingResource mIdlingRes = new CountingIdlingResource("name");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        getIdlingResource();
-//        if (mIdlingResource != null) {
-//            mIdlingResource.setIdleState(false);
-//        }
-
-//        getIdlingResource();
 
         emptyTv = findViewById(R.id.empty_view);
         emptyImgView = findViewById(R.id.empty_img_view);
@@ -79,18 +65,14 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
             int spanCount = 60; // 3 columns
             mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount));
         }
-//        MessageDelayer.processMessage("Sample",this,mIdlingResource);
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        EspressoIdlingResource.increment();
         callRetroFit();
-        if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
-            EspressoIdlingResource.decrement(); // Set app as idle.
-        }
+
     }
 
     /*Method to generate List of data using RecyclerView with custom adapter*/
@@ -114,8 +96,12 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
     }
 
     private void callRetroFit(){
+        OkHttpClient client = new OkHttpClient();
+        if (BuildConfig.DEBUG) {
+            IdlingResource.registerOkHttp(client);
+        }
 
-        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+        GetDataService service = RetrofitClientInstance.getRetrofitInstance(client).create(GetDataService.class);
         Call<List<Recipe>> call = service.getAllRecipes();
 
 
@@ -137,11 +123,6 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
             }
         });
 
-
-//        if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
-//            EspressoIdlingResource.decrement(); // Set app as idle.
-//        }
-
     }
 
     public void retyconnection(View view) {
@@ -162,25 +143,4 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
         retryBtn.setVisibility(View.VISIBLE);
     }
 
-    public static int calculateNoOfColumns(Context context) {
-        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        int noOfColumns = (int) (dpWidth / 180);
-        return noOfColumns;
-    }
-
-
-
-//    @VisibleForTesting
-//    @NonNull
-//    public IdlingResource getIdlingResource() {
-//        if (mIdlingResource == null) {
-//            mIdlingResource = new SimpleIdlingResource();
-//        }
-//        return mIdlingResource;
-//    }
-
-    public CountingIdlingResource getIdlingResourceInTest() {
-        return mIdlingRes;
-    }
 }
