@@ -53,7 +53,6 @@ public class MainActivityTest {
     public void test_ingredient_text_exist(){
         onView(withId(R.id.mainRecipeRV)).perform(RecyclerViewActions.actionOnItemAtPosition(rand,click()));
         onView(withId(R.id.masterListRecyclerView)).check(matches(isDisplayed())).perform(RecyclerViewActions.actionOnItem(hasDescendant(withText("Ingredients")),click()));
-
     }
 
     @Test
@@ -62,6 +61,19 @@ public class MainActivityTest {
         onView(withId(R.id.masterListRecyclerView)).check(matches(isDisplayed())).perform(RecyclerViewActions.actionOnItem(hasDescendant(withText("Recipe Introduction")),click()));
     }
 
+    @Test
+    public void test_simple_player_view_exist_for_recipe(){
+        onView(withId(R.id.mainRecipeRV)).perform(RecyclerViewActions.actionOnItemAtPosition(rand,click()));
+        onView(withId(R.id.masterListRecyclerView)).check(matches(isDisplayed())).perform(RecyclerViewActions.actionOnItem(hasDescendant(withText("Recipe Introduction")),click()));
+        onView(withId(R.id.simpleExoPlayerView)).check(matches(isDisplayed()));
+    }
 
-
+    @Test
+    public void test_next_button(){
+        onView(withId(R.id.mainRecipeRV)).perform(RecyclerViewActions.actionOnItemAtPosition(rand,click()));
+        onView(withId(R.id.masterListRecyclerView)).check(matches(isDisplayed())).perform(RecyclerViewActions.actionOnItem(hasDescendant(withText("Recipe Introduction")),click()));
+        onView(withId(R.id.simpleExoPlayerView)).check(matches(isDisplayed()));
+        onView(withId(R.id.textView2)).check(matches(withText("Recipe Introduction")));
+        onView(withId(R.id.nextbtn)).perform(click());
+    }
 }

@@ -28,6 +28,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
+
+/**
+ * This test were generated via Test Recorder
+ * */
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTestAllRecipeNames {
