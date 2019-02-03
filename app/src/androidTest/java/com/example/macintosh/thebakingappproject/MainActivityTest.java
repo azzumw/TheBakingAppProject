@@ -40,7 +40,6 @@ public class MainActivityTest {
 
         onView(allOf(withId(R.id.mainRecipeRV), isDisplayed())).perform(RecyclerViewActions
                 .actionOnItem(hasDescendant(withText("Brownies")), click()));
-
     }
 
     @Test
@@ -75,5 +74,8 @@ public class MainActivityTest {
         onView(withId(R.id.simpleExoPlayerView)).check(matches(isDisplayed()));
         onView(withId(R.id.textView2)).check(matches(withText("Recipe Introduction")));
         onView(withId(R.id.nextbtn)).perform(click());
+        onView(withId(R.id.empty_img_view)).check(matches(isDisplayed()));
     }
+
+
 }

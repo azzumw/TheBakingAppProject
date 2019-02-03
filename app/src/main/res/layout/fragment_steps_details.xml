@@ -52,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:id="@+id/backbtn"
+                android:background="@drawable/list_item_selector"
                 android:text="@string/BACK_BTN_TEXT"/>
 
             <Button
@@ -59,6 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:id="@+id/nextbtn"
+                android:background="@drawable/list_item_selector"
                 android:text="@string/NEXT_BTN_TEXT"/>
 
         </LinearLayout>
