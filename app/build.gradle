@@ -22,8 +22,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
@@ -33,12 +33,13 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.1.1'
 //    implementation 'androidx.test.espresso:espresso-idling-resource:3.1.1'
 
+    //-beta01
 
     //card-view
-    implementation 'androidx.cardview:cardview:1.0.0-beta01'
+    implementation 'androidx.cardview:cardview:1.0.0'
 
     //recycler view
-    implementation 'androidx.recyclerview:recyclerview:1.0.0-beta01'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha02'
 
     //picasso
     implementation 'com.squareup.picasso:picasso:2.5.2'
@@ -53,8 +54,8 @@ dependencies {
     implementation'com.squareup.okhttp3:okhttp:3.12.0'
 
     //exoplayer
-    implementation 'com.google.android.exoplayer:exoplayer:2.6.0'
-    implementation 'com.google.android.exoplayer:exoplayer-ui:2.7.3'
+    implementation 'com.google.android.exoplayer:exoplayer:2.8.0'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.8.0'
 
     //gson
     implementation 'com.google.code.gson:gson:2.8.2'
