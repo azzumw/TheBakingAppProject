@@ -26,14 +26,14 @@ public class MainActivityTest {
     public ActivityTestRule<MainActivity> mainActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
 
-    @Before
-    public void prepare() {
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+//    @Before
+//    public void prepare() {
+//        try {
+//            Thread.sleep(5000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @Test
     public void scrollToPosition_mainRecipeList() {
