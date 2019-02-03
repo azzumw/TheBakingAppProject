@@ -68,6 +68,24 @@ public class MainActivityTest {
     }
 
     @Test
+    public void test_play_video(){
+        onView(withId(R.id.mainRecipeRV)).perform(RecyclerViewActions.actionOnItemAtPosition(rand,click()));
+        onView(withId(R.id.masterListRecyclerView)).check(matches(isDisplayed())).perform(RecyclerViewActions.actionOnItem(hasDescendant(withText("Recipe Introduction")),click()));
+        onView(withId(R.id.simpleExoPlayerView)).check(matches(isDisplayed()));
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        onView(withId(R.id.exo_play)).perform(click());
+        try {
+            Thread.sleep(16000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     public void test_next_button(){
         onView(withId(R.id.mainRecipeRV)).perform(RecyclerViewActions.actionOnItemAtPosition(rand,click()));
         onView(withId(R.id.masterListRecyclerView)).check(matches(isDisplayed())).perform(RecyclerViewActions.actionOnItem(hasDescendant(withText("Recipe Introduction")),click()));
