@@ -24,4 +24,5 @@
     <string name="INGREDIENT_ARRAY_BUNDLE_KEY">ingredients</string>
     <string name="INGREDIENTS_TEXT">Ingredients</string>
     <string name="RECIPE_INTRODUCTION_TEXT">Recipe Introduction</string>
+    <string name="recipe_title_hint">Recipe 1</string>
 </resources>

@@ -1,7 +1,5 @@
 package com.example.macintosh.thebakingappproject.Network;
 
-import android.os.AsyncTask;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

@@ -1,27 +1,18 @@
 package com.example.macintosh.thebakingappproject;
 
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.example.macintosh.thebakingappproject.Models.Ingredient;
 import com.example.macintosh.thebakingappproject.Models.Recipe;
-import com.example.macintosh.thebakingappproject.Network.GetDataService;
-import com.example.macintosh.thebakingappproject.Network.RetrofitClientInstance;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ListViewWidgetService extends RemoteViewsService {
 
@@ -60,7 +51,6 @@ class AppWidgetListView implements RemoteViewsService.RemoteViewsFactory{
 
     @Override
     public void onDestroy() {
-
     }
 
     @Override
@@ -104,6 +94,5 @@ class AppWidgetListView implements RemoteViewsService.RemoteViewsFactory{
         Gson gson = new Gson();
         Recipe recipe = gson.fromJson(json,Recipe.class);
         return recipe.getIngredients();
-
     }
 }

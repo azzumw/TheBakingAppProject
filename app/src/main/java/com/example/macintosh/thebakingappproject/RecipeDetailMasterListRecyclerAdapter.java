@@ -15,7 +15,7 @@ public class RecipeDetailMasterListRecyclerAdapter extends RecyclerView.Adapter<
     private OnImageClickListener onImageClickListener;
 
     private List<String> stringList;
-    Context context;
+    private Context context;
     public RecipeDetailMasterListRecyclerAdapter(Context context,int size, OnImageClickListener onImageClickListener) {
         this.onImageClickListener = onImageClickListener;
         this.context = context;

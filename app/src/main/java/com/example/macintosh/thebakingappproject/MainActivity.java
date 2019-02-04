@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
     private Button retryBtn;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +58,6 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
 
         }else{
             //tablet
-//            int numberCol = calculateNoOfColumns(this);
             layoutManager = new GridLayoutManager(this,3);
             int spanCount = 60; // 3 columns
             mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount));
@@ -111,8 +109,6 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
                 List<Recipe> recipeList = response.body();
                 onConnectionSuccess();
                 generateDataList(recipeList);
-
-
             }
 
             @Override
@@ -121,7 +117,6 @@ public class MainActivity extends AppCompatActivity  implements MainRecipeCustom
                 onConnectionFailure();
             }
         });
-
     }
 
     public void retyconnection(View view) {

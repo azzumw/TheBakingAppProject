@@ -205,10 +205,8 @@ public class StepsDetailFragment extends Fragment {
                 emtpyImg.setVisibility(View.VISIBLE);
                 stepInstructionTv.setVisibility(View.VISIBLE);
                 stepInstructionTv.setText(step.getDescription());
-//                LinearLayout linearLayout  =  getActivity().findViewById(R.id.childLinearLayout);
-//                linearLayout.setVisibility(View.VISIBLE);
-
             }
+
             nextButtonListener();
             backButtonListener();
         }
@@ -229,7 +227,6 @@ public class StepsDetailFragment extends Fragment {
 
                 if(currentPosition< STEP_ARRAY_SIZE-1){
                     releasePlayer();
-//                        MyExoPlayer.clearPlayerResources();
 
                     showNextStep(nextPosition);
                 }
@@ -247,7 +244,6 @@ public class StepsDetailFragment extends Fragment {
             public void onClick(View v) {
                 if(currentPosition>0){
                     releasePlayer();
-//                        MyExoPlayer.clearPlayerResources();
                     showPreviousStep(previousPosition);
                 }else{
                     Toast.makeText(getContext(),"Start of list",Toast.LENGTH_SHORT).show();

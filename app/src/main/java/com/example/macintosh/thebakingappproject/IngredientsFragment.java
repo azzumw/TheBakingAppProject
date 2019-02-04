@@ -17,8 +17,6 @@ import com.example.macintosh.thebakingappproject.Models.Ingredient;
 
 import java.util.ArrayList;
 
-import static java.security.AccessController.getContext;
-
 public class IngredientsFragment extends Fragment {
 
     public IngredientsFragment() {
@@ -50,13 +48,11 @@ public class IngredientsFragment extends Fragment {
         }
 
         return rootview;
-
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
             ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle(null);
-
     }
 }
