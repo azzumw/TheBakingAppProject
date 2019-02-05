@@ -12,10 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeDetailMasterListRecyclerAdapter extends RecyclerView.Adapter<RecipeDetailMasterListRecyclerAdapter.RecipeDetailMasterListViewHolder> {
-    private OnImageClickListener onImageClickListener;
 
+    private OnImageClickListener onImageClickListener;
     private List<String> stringList;
     private Context context;
+
     public RecipeDetailMasterListRecyclerAdapter(Context context,int size, OnImageClickListener onImageClickListener) {
         this.onImageClickListener = onImageClickListener;
         this.context = context;
