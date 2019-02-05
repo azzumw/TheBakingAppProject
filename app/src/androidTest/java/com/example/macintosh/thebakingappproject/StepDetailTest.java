@@ -1,10 +1,6 @@
 package com.example.macintosh.thebakingappproject;
 
-
-import android.content.pm.ActivityInfo;
 import android.os.RemoteException;
-
-import junit.extensions.ActiveTestSuite;
 
 import org.junit.Rule;
 import org.junit.Test;
