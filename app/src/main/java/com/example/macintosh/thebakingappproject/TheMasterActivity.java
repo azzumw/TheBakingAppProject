@@ -158,6 +158,7 @@ public class TheMasterActivity extends AppCompatActivity implements OnImageClick
     private void replaceStepsDetailFragment(int pos) {
         Bundle bundle = new Bundle();
         bundle.putInt(getString(R.string.STEP_ARRAY_SIZE_KEY),stepArrayList.size());
+        bundle.putString("Title",recipe.getName());
         bundle.putInt(getString(R.string.CURRENT_POSITON_KEY),pos);
         //pass the next step
         bundle.putParcelable(getString(R.string.NEXT_STEP_KEY),stepArrayList.get(pos));

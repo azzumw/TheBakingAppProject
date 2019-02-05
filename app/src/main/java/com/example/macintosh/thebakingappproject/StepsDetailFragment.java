@@ -192,6 +192,7 @@ public class StepsDetailFragment extends Fragment {
                 getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
                 if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+                    ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(bundle.getString("Title"));
                     ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle("Step " + step.getId());
                     stepInstructionTv.setText(step.getDescription());
                     nextButtonListener();
